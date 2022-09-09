@@ -35,6 +35,8 @@ func calculate_velocity(direction: Vector2):
 				velocity.y = 0
 		elif is_on_ceiling():
 			velocity.y = 0
+		elif is_on_wall():
+			velocity.x *= -0.5
 		velocity.y += gravity
 	elif direction.y < 0:
 		knockedout = false
