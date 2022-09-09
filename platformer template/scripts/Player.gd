@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-const TIRO = preload("res://playerstuff/Tiro.tscn")
+const TIRO = preload("res://scenes/Tiro.tscn")
 
 onready var spawner_de_tiro = $braco/TiroSpawner
 onready var sprite = $AnimatedSprite#animated sprite do player

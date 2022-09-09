@@ -1,7 +1,7 @@
 extends Position2D
 
 onready var mao = $mao
-onready var effect = $mao/effect
+#onready var effect = $mao/effect
 
 func _ready():
 	pass # Replace with function body.

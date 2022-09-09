@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/art/susbat.png" type="Texture" id=1]
-[ext_resource path="res://Susbat.gd" type="Script" id=2]
-[ext_resource path="res://HurtBox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/Susbat.gd" type="Script" id=2]
+[ext_resource path="res://scenes/HurtBox.tscn" type="PackedScene" id=3]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -43,7 +43,6 @@ position = Vector2( 1, -1 )
 shape = SubResource( 5 )
 
 [node name="HurtBox" parent="." instance=ExtResource( 3 )]
-visible = false
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
 position = Vector2( 0.5, -0.5 )
