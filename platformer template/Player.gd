@@ -1,5 +1,8 @@
 extends KinematicBody2D
 
+const TIRO = preload("res://playerstuff/Tiro.tscn")
+
+onready var spawner_de_tiro = $braco/TiroSpawner
 onready var sprite = $AnimatedSprite#animated sprite do player
 onready var atk_cd = $atk_cd#timer de cooldown entre tiros
 onready var effect = $braco/effect#efeito de raio quando o player atira
@@ -100,6 +103,15 @@ func shoot():
 	shooting_recoil()
 	#####ACC SHOOTING
 	#
+#	var _tiro = TIRO
+#	_tiro.position = Vector2.ZERO
+#	get_parent().add_child(_tiro)
+	var _tiro = TIRO.instance()
+	_tiro.position = spawner_de_tiro.global_position
+	#print((global_position-mouse_pos).normalized())
+	_tiro.set_linear_velocity((mouse_pos-global_position).normalized() * 200)
+	get_parent().add_child(_tiro)
+	
 	print("pew pew")
 	#
 	if !is_on_floor():
