@@ -7,6 +7,7 @@ onready var effect = $braco/effect
 var velocity = Vector2.ZERO
 var knockedout = false
 var can_shoot = true
+var is_recoil = false
 
 export var speed = Vector2(150,330)
 export var gravity = 12
@@ -25,7 +26,9 @@ func get_input_direction():
 	return Vector2(Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"), -Input.get_action_strength("ui_up"))
 
 func calculate_velocity(direction: Vector2):
-	if !is_on_floor():
+	if is_recoil:
+		pass
+	elif !is_on_floor():
 		if !knockedout:
 			velocity.x = lerp(velocity.x, direction.x * speed.x, 0.1)
 			if is_on_ceiling() or direction.y >= 0 and velocity.y<=0:
@@ -49,9 +52,10 @@ func animate():
 		if global_position.x>get_global_mouse_position().x:
 			sprite.flip_h = false
 		else:
-			sprite.flip_h = true
-		
+			sprite.flip_h = true	
 		sprite.play("KO2")
+	elif is_recoil:
+		pass
 	elif !is_on_floor():
 		sprite.play("jump")
 	elif velocity.x>1:
@@ -69,6 +73,7 @@ func shoot():
 	atk_cd.start()
 	effect.visible = true
 	effect.play("default")
+	shooting_recoil()
 	#####ACC SHOOTING
 	#
 	print("pew pew")
@@ -88,3 +93,12 @@ func _on_effect_animation_finished():
 	effect.visible = false
 #	$braco/mao.visible = false
 	effect.stop()
+
+func shooting_recoil():
+	if is_on_floor():
+		is_recoil = true
+#		velocity.x *= 0.5
+		velocity.x = 50 * (global_position- get_global_mouse_position()).normalized().x
+		yield(get_tree().create_timer(0.08), "timeout")
+		velocity.x = 0
+		is_recoil = false
