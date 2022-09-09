@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Mouse_Cursor.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 257.183, 10 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 72.0326, 10 )
+
+[node name="World" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 264.345, 160.693 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+position = Vector2( 254.792, 263.621 )
+scale = Vector2( 8.01623, 0.645247 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 255.747, 252.967 )
+shape = SubResource( 1 )
+
+[node name="Sprite2" type="Sprite" parent="StaticBody2D"]
+position = Vector2( 430.199, 189.832 )
+scale = Vector2( 2.2619, 0.309617 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 430.478, 190.254 )
+shape = SubResource( 2 )
+
+[node name="Sprite3" type="Sprite" parent="StaticBody2D"]
+position = Vector2( 120.199, 147.832 )
+scale = Vector2( 2.2619, 0.309617 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 120.478, 148.254 )
+shape = SubResource( 2 )
+
+[node name="Mouse_Cursor" parent="." instance=ExtResource( 3 )]
