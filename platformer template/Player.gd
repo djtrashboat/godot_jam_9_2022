@@ -21,6 +21,7 @@ func _process(delta):
 func _physics_process(delta):
 	calculate_velocity(get_input_direction())
 	move_and_slide(velocity, Vector2.UP)
+	get_parent().global_player_pos = position
 
 func get_input_direction():
 	return Vector2(Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"), -Input.get_action_strength("ui_up"))
