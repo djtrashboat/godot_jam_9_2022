@@ -14,4 +14,3 @@ func _process(delta):
 	else:
 		mao.flip_v = true
 		look_at(Vector2(mouse_pos.x, mouse_pos.y))
-

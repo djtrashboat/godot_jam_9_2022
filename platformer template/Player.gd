@@ -47,22 +47,42 @@ func calculate_velocity(direction: Vector2):
 		velocity.x = lerp(velocity.x, direction.x * speed.x, 0.6)
 		velocity.y = gravity
 
-func animate():
+#func animate():
+#	if knockedout:
+#		if global_position.x>get_global_mouse_position().x:
+#			sprite.flip_h = false
+#		else:
+#			sprite.flip_h = true	
+#		sprite.play("KO2")
+#	elif is_recoil:
+#		pass
+#	elif !is_on_floor():
+#		sprite.play("jump")
+#	elif velocity.x>1:
+#		sprite.flip_h = false
+#		sprite.play("run")
+#	elif velocity.x<-1:
+#		sprite.flip_h = true
+#		sprite.play("run")
+#	else:
+#		sprite.play("idle")
+
+func animate():###########2******************
+	var mouse_pos = get_global_mouse_position()
+	if mouse_pos.x<global_position.x:
+		sprite.flip_h = true
+	else:
+		sprite.flip_h = false
+	
 	if knockedout:
 		if global_position.x>get_global_mouse_position().x:
 			sprite.flip_h = false
 		else:
 			sprite.flip_h = true	
 		sprite.play("KO2")
-	elif is_recoil:
-		pass
 	elif !is_on_floor():
 		sprite.play("jump")
-	elif velocity.x>1:
-		sprite.flip_h = false
-		sprite.play("run")
-	elif velocity.x<-1:
-		sprite.flip_h = true
+	elif velocity.x>1 or velocity.x<-1:
 		sprite.play("run")
 	else:
 		sprite.play("idle")
