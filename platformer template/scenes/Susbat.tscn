@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/art/susbat.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Susbat.gd" type="Script" id=2]
-[ext_resource path="res://scenes/HurtBox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/HurtBoxTiro.tscn" type="PackedScene" id=3]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -24,34 +24,29 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="CircleShape2D" id=5]
-radius = 4.52769
+[sub_resource type="CircleShape2D" id=7]
+radius = 5.52268
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 14.5, 5.5 )
 
 [node name="Susbat" type="KinematicBody2D"]
 collision_layer = 4
-collision_mask = 9
+collision_mask = 13
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 1, -1 )
-shape = SubResource( 5 )
+position = Vector2( 0.5, -0.5 )
+shape = SubResource( 7 )
 
 [node name="HurtBox" parent="." instance=ExtResource( 3 )]
+visible = false
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
 position = Vector2( 0.5, -0.5 )
 shape = SubResource( 6 )
-
-[node name="SpawnTimer" type="Timer" parent="."]
-wait_time = 2.0
-autostart = true
-
-[connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
 
 [editable path="HurtBox"]
