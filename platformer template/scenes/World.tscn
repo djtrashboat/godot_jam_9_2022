@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 [ext_resource path="res://scenes/Mouse_Cursor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/Susbat.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/World.gd" type="Script" id=5]
+[ext_resource path="res://scripts/SpawnerSusbat.gd" type="Script" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 257.183, 10 )
@@ -51,3 +52,12 @@ shape = SubResource( 2 )
 
 [node name="Susbat" parent="." instance=ExtResource( 4 )]
 position = Vector2( 56, 50 )
+collision_mask = 13
+
+[node name="SpawnerSusbat" type="Position2D" parent="."]
+script = ExtResource( 6 )
+
+[node name="SpawnTimer" type="Timer" parent="SpawnerSusbat"]
+autostart = true
+
+[connection signal="timeout" from="SpawnerSusbat/SpawnTimer" to="SpawnerSusbat" method="_on_SpawnTimer_timeout"]
