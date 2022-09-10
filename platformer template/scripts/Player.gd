@@ -1,16 +1,21 @@
 extends KinematicBody2D
 
 const TIRO = preload("res://scenes/Tiro.tscn")
+const MAXLIFE = 10
 
 onready var spawner_de_tiro = $braco/TiroSpawner
 onready var sprite = $AnimatedSprite#animated sprite do player
 onready var atk_cd = $atk_cd#timer de cooldown entre tiros
+onready var invincible_cd = $invincible_cd
 onready var effect = $braco/effect#efeito de raio quando o player atira
+
+var current_life = 10
 
 var velocity = Vector2.ZERO
 var knockedout = false#ativo após o player atirar no ar, ele perde o controle do personagem
 var can_shoot = true#ativo quando o player pode atirar: após o cd de cada tiro
 var is_recoil = false#ativo após o player atirar no chão, ele perde o controle do personagem por uma fração de segundo e sofre uma aceleração oposta a direção do tiro
+var is_invincible = false
 
 export var speed = Vector2(150,330)
 export var gravity = 12
@@ -18,6 +23,13 @@ export var gravity = 12
 
 func _process(delta):
 	animate()
+	if is_invincible:
+		modulate = Color.green
+	else:
+		modulate = Color.white
+	if current_life <= 0:
+		modulate = Color.red
+	
 	if Input.is_action_pressed("mouse_right") and !knockedout and can_shoot:
 		shoot()
 
@@ -101,7 +113,7 @@ func shoot():
 	atk_cd.start()
 	effect.visible = true
 	effect.play("default")
-	shooting_recoil()
+	shooting_recoil(mouse_pos, 50.0)
 	#####ACC SHOOTING
 	#
 #	var _tiro = TIRO
@@ -116,26 +128,38 @@ func shoot():
 	print("pew pew")
 	#
 	if !is_on_floor():
-		apply_impulse(mouse_pos)
+		apply_impulse(mouse_pos, 270.0)
 
-func apply_impulse(mouse_pos: Vector2):
+func apply_impulse(pos: Vector2, amount: float):
 	knockedout = true
 	$braco/mao.visible = false
-	velocity = 270 * Vector2((global_position - mouse_pos).normalized())
+	velocity = 270 * Vector2((global_position - pos).normalized())
 
 func _on_atk_cd_timeout():
 	can_shoot = true
+
+func _on_invincible_cd_timeout():
+	is_invincible = false
 
 func _on_effect_animation_finished():
 	effect.visible = false
 #	$braco/mao.visible = false
 	effect.stop()
 
-func shooting_recoil():
+func shooting_recoil(op_direction: Vector2, amount: float):
 	if is_on_floor():
 		is_recoil = true
 #		velocity.x *= 0.5
-		velocity.x = 50 * (global_position- get_global_mouse_position()).normalized().x
+		velocity.x = amount * (global_position - op_direction).normalized().x
 		yield(get_tree().create_timer(0.08), "timeout")
 		velocity.x = 0
 		is_recoil = false
+
+func get_hurt():
+	if not is_invincible:
+		invincible_cd.start()
+		current_life -= 1
+	if current_life <= 0:
+		print("rip")
+	print("Current life:", current_life)
+

@@ -23,3 +23,6 @@ func _physics_process(delta):
 	vel = -(position - get_parent().global_player_pos)
 	vel = vel.normalized() * 100
 	move_and_slide(vel, Vector2(0.0, -1.0))
+
+func set_knock(v):
+	print("test")

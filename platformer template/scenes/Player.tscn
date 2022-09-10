@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://assets/art/mongus_sheet.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/art/knockedout.png" type="Texture" id=6]
 [ext_resource path="res://assets/art/shooteffect.png" type="Texture" id=7]
 [ext_resource path="res://scenes/TiroSpawner.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/HurtBoxPlayer.tscn" type="PackedScene" id=9]
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 6 )
@@ -108,6 +109,9 @@ animations = [ {
 "speed": 32.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 7, 10 )
+
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
 collision_mask = 17
@@ -116,7 +120,6 @@ script = ExtResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 12 )
 animation = "KO2"
-frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -147,5 +150,17 @@ texture = ExtResource( 4 )
 wait_time = 0.5
 one_shot = true
 
+[node name="HurtBoxPlayer" parent="." instance=ExtResource( 9 )]
+
+[node name="CollisionShape2D" parent="HurtBoxPlayer" index="0"]
+position = Vector2( 1, 6 )
+shape = SubResource( 19 )
+
+[node name="invincible_cd" type="Timer" parent="."]
+wait_time = 0.5
+
 [connection signal="animation_finished" from="braco/effect" to="." method="_on_effect_animation_finished"]
 [connection signal="timeout" from="atk_cd" to="." method="_on_atk_cd_timeout"]
+[connection signal="timeout" from="invincible_cd" to="." method="_on_invincible_cd_timeout"]
+
+[editable path="HurtBoxPlayer"]
