@@ -8,6 +8,7 @@ onready var sprite = $AnimatedSprite#animated sprite do player
 onready var atk_cd = $atk_cd#timer de cooldown entre tiros
 onready var invincible_cd = $invincible_cd
 onready var effect = $braco/effect#efeito de raio quando o player atira
+onready var mao = $braco/mao
 
 var current_life = 10
 
@@ -56,14 +57,14 @@ func calculate_velocity(direction: Vector2):
 		velocity.y += gravity
 	elif direction.y < 0:# no chão e pulo apertado
 		knockedout = false#ao pousar o player deixa de estar knocado
-		$braco/mao.visible = true
+		mao.visible = true
 		velocity.x = lerp(velocity.x, direction.x * speed.x, 0.6) #linha desnecessária#linha desnecessária
 		#as linhas acima só fazem tudo funcionar se o player não soltar o botão de pulo
 		#sem elas, buga se o player spamar o pulo sem soltar pq ele n chega a terminar de "pousar"
 		velocity.y = direction.y * speed.y #performa o pulo
 	else:#no chão
 		knockedout = false#ao pousar o player deixa de estar knocado
-		$braco/mao.visible = true
+		mao.visible = true
 		velocity.x = lerp(velocity.x, direction.x * speed.x, 0.6)#player controla o personagem normalmente com aceleração relativamente alta
 		velocity.y = gravity #para a velocidade vertical não ficar aumentando enquanto o player está no chão 
 
@@ -132,8 +133,8 @@ func shoot():
 
 func apply_impulse(pos: Vector2, amount: float):
 	knockedout = true
-	$braco/mao.visible = false
-	velocity = 270 * Vector2((global_position - pos).normalized())
+	mao.visible = false
+	velocity = amount * Vector2((global_position - pos).normalized())
 
 func _on_atk_cd_timeout():
 	can_shoot = true
