@@ -10,6 +10,7 @@ var rand = RandomNumberGenerator.new()
 
 func get_hurt():
 	life -= 1
+	modulate = Color.red
 	if (life <= 0):
 		queue_free()
 

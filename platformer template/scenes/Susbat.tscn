@@ -24,15 +24,15 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=5]
 radius = 5.52268
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 14.5, 5.5 )
+extents = Vector2( 15.5, 6.5 )
 
 [node name="Susbat" type="KinematicBody2D"]
 collision_layer = 4
-collision_mask = 13
+collision_mask = 5
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -40,10 +40,9 @@ frames = SubResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, -0.5 )
-shape = SubResource( 7 )
+shape = SubResource( 5 )
 
 [node name="HurtBox" parent="." instance=ExtResource( 3 )]
-visible = false
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
 position = Vector2( 0.5, -0.5 )
