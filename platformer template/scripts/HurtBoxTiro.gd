@@ -5,5 +5,5 @@ func _ready():
 
 func _on_HurtBox_body_entered(body):
 	get_parent().get_hurt()
-	if body.name == "Tiro":
-		body.queue_free()
+	if body.is_in_group("TIRO"):
+		body.take_dmg()
