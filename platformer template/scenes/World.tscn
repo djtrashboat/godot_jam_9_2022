@@ -48,10 +48,10 @@ texture = ExtResource( 2 )
 position = Vector2( 120.478, 148.254 )
 shape = SubResource( 2 )
 
-[node name="Mouse_Cursor" parent="." instance=ExtResource( 3 )]
-
 [node name="Susbat" parent="." instance=ExtResource( 4 )]
 position = Vector2( 56, 50 )
+
+[node name="Mouse_Cursor" parent="." instance=ExtResource( 3 )]
 
 [node name="SpawnerSusbat" type="Position2D" parent="."]
 script = ExtResource( 6 )
