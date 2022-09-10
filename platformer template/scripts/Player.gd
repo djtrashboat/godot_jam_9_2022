@@ -25,8 +25,10 @@ export var gravity = 12
 func _process(delta):
 	animate()
 	if is_invincible:
-		modulate = Color.green
+		#modulate = Color.green
+		modulate.a = 0.4
 	else:
+		modulate.a = 1.0
 		modulate = Color.white
 	if current_life <= 0:
 		modulate = Color.red
