@@ -9,20 +9,24 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 
 [sub_resource type="NavigationPolygon" id=6]
-vertices = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+vertices = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 ) ]
 
 [sub_resource type="NavigationPolygon" id=7]
-vertices = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+vertices = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 ) ]
 
 [sub_resource type="NavigationPolygon" id=8]
-vertices = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+vertices = PoolVector2Array( 16, 16, 0.126022, 16, 0.126022, 0.228683, 16, 0.228683 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 16, 16, 0.126022, 16, 0.126022, 0.228683, 16, 0.228683 ) ]
 
 [sub_resource type="NavigationPolygon" id=9]
-vertices = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
+vertices = PoolVector2Array( 16, 16, 0.529785, 16, 0, 0, 16, 0.379234 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 16, 16, 0.529785, 16, 0, 0, 16, 0.379234 ) ]
 
 [sub_resource type="TileSet" id=3]
 0/name = "tileset-placeholder.png 0"
