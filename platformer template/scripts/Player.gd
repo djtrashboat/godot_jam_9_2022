@@ -9,6 +9,49 @@ onready var atk_cd = $atk_cd#timer de cooldown entre tiros
 onready var invincible_cd = $invincible_cd
 onready var effect = $braco/effect#efeito de raio quando o player atira
 onready var mao = $braco/mao
+onready var aura_col = $Aura/CollisionShape2D
+onready var aura_area = $Aura
+
+#upgrades-----------------------------
+var current_xp = 0
+var xp_next_level = 100
+
+var max_aura_level = 5 
+var aura_level = 0
+var aura_can_hurt = true
+
+var aura_radius = 0
+var aura_radius_base = 4
+
+var aura_dps = 0
+var aura_dps_base = 1
+var aura_ticks_per_sec_base = 10
+var aura_timer_time = 1.0 / aura_ticks_per_sec_base
+
+
+var max_fire_rate_level = 5
+var fire_rate_level = 1
+onready var atk_cd_base = atk_cd.wait_time
+
+
+var max_shoot_front_level = 5
+var shoot_front_level = 1
+var dtheta_front = 0
+
+var max_shoot_back_level = 5
+var shoot_back_level = 0
+var dtheta_back = 0
+
+var k_fov_shoot = PI / 4
+
+var max_shoot_pierce_level = 5
+var shoot_pierce_level = 0
+
+var max_shoot_dmg_level = 5
+var shoot_dmg_level = 5
+
+
+#upgrades-----------------------------
 
 var current_life = 10
 
@@ -21,11 +64,18 @@ var is_invincible = false
 export var speed = Vector2(150,330)
 export var gravity = 12
 
+func _ready():
+	update_fire_rate(0)
+	update_shoot_pierce_level(0)
+	update_shoot_dmg_level(0)
+	update_shoot_back_level(0)
+	update_shoot_front_level(0)
+	update_aura_level(5)
+	$aura_tick.wait_time = aura_timer_time
 
 func _process(delta):
 	animate()
 	if is_invincible:
-		#modulate = Color.green
 		modulate.a = 0.4
 	else:
 		modulate.a = 1.0
@@ -35,6 +85,9 @@ func _process(delta):
 	
 	if Input.is_action_pressed("mouse_right") and !knockedout and can_shoot:
 		shoot()
+		
+	if aura_can_hurt:
+		aura_hurt(aura_dps * aura_timer_time)
 
 func _physics_process(delta):
 	calculate_velocity(get_input_direction())
@@ -71,27 +124,10 @@ func calculate_velocity(direction: Vector2):
 		velocity.x = lerp(velocity.x, direction.x * speed.x, 0.6)#player controla o personagem normalmente com aceleração relativamente alta
 		velocity.y = gravity #para a velocidade vertical não ficar aumentando enquanto o player está no chão 
 
-#func animate():
-#	if knockedout:
-#		if global_position.x>get_global_mouse_position().x:
-#			sprite.flip_h = false
-#		else:
-#			sprite.flip_h = true	
-#		sprite.play("KO2")
-#	elif is_recoil:
-#		pass
-#	elif !is_on_floor():
-#		sprite.play("jump")
-#	elif velocity.x>1:
-#		sprite.flip_h = false
-#		sprite.play("run")
-#	elif velocity.x<-1:
-#		sprite.flip_h = true
-#		sprite.play("run")
-#	else:
-#		sprite.play("idle")
+func _draw():
+	draw_circle_arc(Vector2.ZERO, aura_radius, 0, 360, Color(0.0, 0.0, 1.0, aura_level / 3.0))
 
-func animate():###########2******************
+func animate():
 	var mouse_pos = get_global_mouse_position()
 	if mouse_pos.x<global_position.x:
 		sprite.flip_h = true
@@ -117,22 +153,32 @@ func shoot():
 	atk_cd.start()
 	effect.visible = true
 	effect.play("default")
-	shooting_recoil(mouse_pos, 50.0)
-	#####ACC SHOOTING
-	#
-#	var _tiro = TIRO
-#	_tiro.position = Vector2.ZERO
-#	get_parent().add_child(_tiro)
-	var _tiro = TIRO.instance()
-	_tiro.position = spawner_de_tiro.global_position
-	#print((global_position-mouse_pos).normalized())
-	_tiro.set_linear_velocity((mouse_pos-global_position).normalized() * 200)
-	get_parent().add_child(_tiro)
+	shooting_recoil(mouse_pos, 50.0 * sign(shoot_front_level - shoot_back_level))
 	
-	#print("pew pew")
-	#
+	for i in range(1, shoot_front_level + 1):
+		var _tiro = TIRO.instance()
+		
+		_tiro.life = shoot_pierce_level
+		_tiro.dmg = shoot_dmg_level
+		
+		_tiro.position = spawner_de_tiro.global_position
+		var dir = (mouse_pos - _tiro.position).normalized().rotated(-k_fov_shoot / 2 + i * dtheta_front)
+		_tiro.set_linear_velocity(dir * 200)
+		get_parent().add_child(_tiro)
+	
+	for i in range(1, shoot_back_level + 1):
+		var _tiro = TIRO.instance()
+		
+		_tiro.life = shoot_pierce_level
+		_tiro.dmg = shoot_dmg_level
+		
+		_tiro.position = spawner_de_tiro.global_position
+		var dir = -(mouse_pos - _tiro.position).normalized().rotated(k_fov_shoot / 2 - i * dtheta_back)
+		_tiro.set_linear_velocity(dir * 200)
+		get_parent().add_child(_tiro)
+
 	if !is_on_floor():
-		apply_impulse(mouse_pos, 270.0)
+		apply_impulse(mouse_pos, 270.0 * sign(shoot_front_level - shoot_back_level))
 
 func apply_impulse(pos: Vector2, amount: float):
 	knockedout = true
@@ -166,4 +212,49 @@ func get_hurt():
 	if current_life <= 0:
 		print("rip")
 	print("Current life:", current_life)
+
+func update_fire_rate(increment):
+	fire_rate_level = clamp(fire_rate_level + increment, 1, max_fire_rate_level)
+	atk_cd.wait_time = atk_cd_base / (fire_rate_level * 1.1)
+
+func update_shoot_pierce_level(increment):
+	shoot_pierce_level = clamp(shoot_pierce_level + increment, 0, max_shoot_pierce_level)
+	
+func update_shoot_dmg_level(increment):
+	shoot_dmg_level = clamp(shoot_dmg_level + increment, 1, max_shoot_dmg_level)
+
+func update_shoot_front_level(increment):
+	shoot_front_level = clamp(shoot_front_level + increment, 1, max_shoot_front_level)
+	dtheta_front = k_fov_shoot / (shoot_front_level + 1)
+
+func update_shoot_back_level(increment):
+	shoot_back_level = clamp(shoot_back_level + increment, 0, max_shoot_back_level)
+	dtheta_back = k_fov_shoot / (shoot_back_level + 1)
+
+func update_aura_level(increment):
+	aura_level = clamp(aura_level + increment, 0, max_aura_level)
+	aura_radius = aura_radius_base * aura_level * 1.5;
+	aura_dps = aura_dps_base * aura_level * 1.5
+	aura_col.shape.radius = aura_radius
+
+#https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html
+func draw_circle_arc(center, radius, angle_from, angle_to, color):
+	var nb_points = 32
+	var points_arc = PoolVector2Array()
+
+	for i in range(nb_points + 1):
+		var angle_point = deg2rad(angle_from + i * (angle_to-angle_from) / nb_points - 90)
+		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * radius)
+
+	for index_point in range(nb_points):
+		draw_line(points_arc[index_point], points_arc[index_point + 1], color)
+
+func _on_aura_tick_timeout():
+	aura_can_hurt = true
+
+func aura_hurt(dmg):
+	aura_can_hurt = false
+	var bodies = aura_area.get_overlapping_bodies()
+	for i in range(0, len(bodies)):
+		bodies[i].get_hurt(dmg)
 

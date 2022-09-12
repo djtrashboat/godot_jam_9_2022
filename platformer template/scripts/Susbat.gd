@@ -39,8 +39,8 @@ func _on_PathTimer_timeout():
 
 #######
 
-func get_hurt():
-	life -= 1
+func get_hurt(amount):
+	life -= amount
 	modulate = Color.red
 	if (life <= 0):
 		queue_free()
