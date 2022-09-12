@@ -1,5 +1,6 @@
 extends KinematicBody2D
 onready var sprite = $AnimatedSprite
+onready var line = $Line2D
 #########
 var vel = Vector2.ZERO
 var life = 2
@@ -17,13 +18,13 @@ func _ready():
 		levelNavigation = tree.get_nodes_in_group("LevelNavigation")[0]
 
 func _physics_process(delta):
+	#line.global_position = Vector2.ZERO
 	if levelNavigation:
 		navigate()
-	#vel = move_and_slide(vel)
 	move_and_slide(vel * 100)
 
 func navigate():
-	if path.size()>1:
+	if path.size() > 1:
 		vel = global_position.direction_to(path[1])
 		if global_position== path[0]:
 			path.pop_front()
@@ -31,9 +32,9 @@ func navigate():
 func generate_path():
 	if levelNavigation!=null:
 		path = levelNavigation.get_simple_path(global_position, get_parent().global_player_pos, false)
+		#line.points = path
 
 func _on_PathTimer_timeout():
-	#print(vel)
 	if levelNavigation:
 		generate_path()
 

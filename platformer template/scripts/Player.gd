@@ -30,7 +30,7 @@ var aura_timer_time = 1.0 / aura_ticks_per_sec_base
 
 
 var max_fire_rate_level = 5
-var fire_rate_level = 1
+var fire_rate_level = 10
 onready var atk_cd_base = atk_cd.wait_time
 
 
@@ -71,7 +71,13 @@ func _ready():
 	update_shoot_back_level(0)
 	update_shoot_front_level(0)
 	update_aura_level(5)
-	$aura_tick.wait_time = aura_timer_time
+	print("Player Status: ")
+	print("Aura Level: ", aura_level, " Aura Radius: ", aura_radius, " Aura DPS: ", aura_dps, " Aura Frequency: ", aura_ticks_per_sec_base)
+	print("Fire Rate Level: ", fire_rate_level)
+	print("Shoot Front Level: ", shoot_front_level)
+	print("Shoot Back Level: ", shoot_back_level)
+	print("Shoot Pierce Level: ", shoot_pierce_level)
+	print("Shoot DMG: ", shoot_dmg_level)
 
 func _process(delta):
 	animate()
@@ -193,7 +199,6 @@ func _on_invincible_cd_timeout():
 
 func _on_effect_animation_finished():
 	effect.visible = false
-#	$braco/mao.visible = false
 	effect.stop()
 
 func shooting_recoil(op_direction: Vector2, amount: float):
@@ -233,9 +238,10 @@ func update_shoot_back_level(increment):
 
 func update_aura_level(increment):
 	aura_level = clamp(aura_level + increment, 0, max_aura_level)
-	aura_radius = aura_radius_base * aura_level * 1.5;
+	aura_radius = aura_radius_base * aura_level * 5;
 	aura_dps = aura_dps_base * aura_level * 1.5
 	aura_col.shape.radius = aura_radius
+	$aura_tick.wait_time = aura_timer_time
 
 #https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html
 func draw_circle_arc(center, radius, angle_from, angle_to, color):
@@ -250,7 +256,7 @@ func draw_circle_arc(center, radius, angle_from, angle_to, color):
 		draw_line(points_arc[index_point], points_arc[index_point + 1], color)
 
 func _on_aura_tick_timeout():
-	aura_can_hurt = true
+	aura_can_hurt = aura_level > 0
 
 func aura_hurt(dmg):
 	aura_can_hurt = false

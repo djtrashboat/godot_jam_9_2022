@@ -1,7 +1,7 @@
 extends Node2D
 var global_player_pos = Vector2.ZERO
 const SUSBAT_SCENE = preload("res://scenes/Susbat.tscn")
-onready var nav_2d: Navigation2D = $Navigation2D
+onready var nav_2d: Navigation2D = $LevelNavigation
 
 func _ready():
 	pass
