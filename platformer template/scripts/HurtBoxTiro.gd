@@ -4,6 +4,6 @@ func _ready():
 	pass
 
 func _on_HurtBox_body_entered(body):
-	get_parent().get_hurt()
+	get_parent().get_hurt(body.dmg)
 	if body.is_in_group("TIRO"):
-		body.take_dmg()
+		body.take_dmg(1)
