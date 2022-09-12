@@ -5,6 +5,8 @@ onready var line = $Line2D
 var vel = Vector2.ZERO
 var life = 2
 var count = 0
+export var speed = 100
+onready var _current_speed = speed
 
 ########################
 var path: Array = []
@@ -21,7 +23,7 @@ func _physics_process(delta):
 	#line.global_position = Vector2.ZERO
 	if levelNavigation:
 		navigate()
-	move_and_slide(vel * 100)
+	move_and_slide(vel * _current_speed)
 
 func navigate():
 	if path.size() > 1:
@@ -40,6 +42,12 @@ func _on_PathTimer_timeout():
 
 #######
 
+func knockout():
+	_current_speed = -speed
+	yield(get_tree().create_timer(0.08), "timeout")
+	_current_speed = speed
+	generate_path()
+
 func get_hurt(amount):
 	life -= amount
 	modulate = Color.red
@@ -51,6 +59,3 @@ func get_hurt(amount):
 #	vel = vel.normalized() * 100
 #	move_and_slide(vel, Vector2(0.0, -1.0))
 #
-func set_knock(v):
-	print("test")
-
