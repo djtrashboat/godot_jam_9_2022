@@ -9,7 +9,7 @@ func _on_Tiro_body_entered(body):
 	queue_free()
 
 func take_dmg():
-	print("tiro dmg")
+	#print("tiro dmg")
 	life -=1
 	if life <= 0:
 		queue_free()

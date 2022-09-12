@@ -37,6 +37,8 @@ script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 4 )
+frame = 1
+playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, -0.5 )
@@ -47,5 +49,11 @@ shape = SubResource( 5 )
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
 position = Vector2( 0.5, -0.5 )
 shape = SubResource( 6 )
+
+[node name="PathTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="PathTimer" to="." method="_on_PathTimer_timeout"]
 
 [editable path="HurtBox"]

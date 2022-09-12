@@ -39,7 +39,8 @@ func _process(delta):
 func _physics_process(delta):
 	calculate_velocity(get_input_direction())
 	move_and_slide(velocity, Vector2.UP)
-	get_parent().global_player_pos = position
+	#get_parent().global_player_pos = position
+	get_parent().set_global_player_pos(global_position)
 
 func get_input_direction():
 	return Vector2(Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left"), -Input.get_action_strength("ui_up"))
@@ -128,7 +129,7 @@ func shoot():
 	_tiro.set_linear_velocity((mouse_pos-global_position).normalized() * 200)
 	get_parent().add_child(_tiro)
 	
-	print("pew pew")
+	#print("pew pew")
 	#
 	if !is_on_floor():
 		apply_impulse(mouse_pos, 270.0)
