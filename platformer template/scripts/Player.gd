@@ -40,7 +40,7 @@ var max_shoot_front_level = 5
 var shoot_front_level = 1
 var dtheta_front = 0
 
-var max_shoot_back_level = 5
+var max_shoot_back_level = 3
 var shoot_back_level = 0
 var dtheta_back = 0
 
