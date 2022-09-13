@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 const TIRO = preload("res://scenes/Tiro.tscn")
+const LIFE = preload("res://scenes/LifeScene.tscn")
 const MAXLIFE = 10
 
 onready var spawner_de_tiro = $braco/TiroSpawner
@@ -18,6 +19,7 @@ var upgrades_scene = false
 
 var current_xp = 0
 var xp_next_level = 100
+var overall_level = 1
 
 var max_aura_level = 5 
 var aura_level = 0
@@ -55,6 +57,7 @@ var shoot_dmg_level = 1
 #upgrades-----------------------------
 
 var current_life = 10
+var lifes_instances: Array = []
 
 var velocity = Vector2.ZERO
 var knockedout = false#ativo após o player atirar no ar, ele perde o controle do personagem
@@ -67,7 +70,13 @@ export var gravity = 12
 
 func _ready():
 	upgrades_ui.visible = false
-	
+	for i in range(current_life):
+		var life_ins = LIFE.instance()
+		life_ins.position.x = 25 * i - get_parent().get_viewport_rect().size.x / 2.2
+		life_ins.position.y = position.y - get_parent().get_viewport_rect().size.y / 2.2
+		lifes_instances.append(life_ins)
+		add_child(life_ins)
+		
 	update_fire_rate_level(0)
 	update_shoot_pierce_level(0)
 	update_shoot_dmg_level(0)
@@ -212,6 +221,7 @@ func get_hurt():
 	if not is_invincible:
 		invincible_cd.start()
 		current_life -= 1
+		lifes_instances[current_life].modulate.a = 0.4
 	if current_life <= 0:
 		print("rip")
 	print("Current life:", current_life)
@@ -265,6 +275,7 @@ func aura_hurt(dmg):
 func update_levels():
 	if current_xp >= xp_next_level:
 		current_xp = current_xp - xp_next_level
+		overall_level = clamp(overall_level + 1, 1, max_aura_level + max_fire_rate_level + max_shoot_front_level + max_shoot_back_level + max_shoot_pierce_level + max_shoot_dmg_level)
 		upgrades_ui.global_position = global_position - get_parent().get_viewport_rect().size / 4
 		upgrades_ui.visible = true
 		upgrades_ui.modulate.a = 1.0
