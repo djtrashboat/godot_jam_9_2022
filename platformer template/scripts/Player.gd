@@ -17,10 +17,6 @@ onready var upgrades_ui = $Upgrades
 #upgrades-----------------------------
 var upgrades_scene = false
 
-var current_xp = 0
-var xp_next_level = 100
-var overall_level = 1
-
 var max_aura_level = 5 
 var aura_level = 0
 var aura_can_hurt = true
@@ -54,6 +50,10 @@ var shoot_pierce_level = 0
 
 var max_shoot_dmg_level = 5
 var shoot_dmg_level = 1
+
+var current_xp = 0
+var xp_next_level = 100
+var max_overall_level = max_aura_level + max_fire_rate_level + max_shoot_front_level + max_shoot_back_level + max_shoot_pierce_level + max_shoot_dmg_level
 #upgrades-----------------------------
 
 var current_life = 10
@@ -275,61 +275,70 @@ func aura_hurt(dmg):
 func update_levels():
 	if current_xp >= xp_next_level:
 		current_xp = current_xp - xp_next_level
-		overall_level = clamp(overall_level + 1, 1, max_aura_level + max_fire_rate_level + max_shoot_front_level + max_shoot_back_level + max_shoot_pierce_level + max_shoot_dmg_level)
-		upgrades_ui.global_position = global_position - get_parent().get_viewport_rect().size / 4
-		upgrades_ui.visible = true
-		upgrades_ui.modulate.a = 1.0
-		upgrades_scene = true
-		get_tree().paused = true
+		print_player_status()
+		if overall_level() < max_overall_level:
+			upgrades_ui.global_position = global_position - get_parent().get_viewport_rect().size / 4
+			upgrades_ui.visible = true
+			upgrades_scene = true
+			get_tree().paused = true
+			upgrades_ui.modulate.a = 1.0
+			get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time = clamp(get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time / 1.5, 0.1, 2)
+		print(get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time)
 
 func _on_Aura_button_down():
 	if upgrades_scene:
-		update_aura_level(1)
-		update()
-		print_player_status()
-	upgrades_ui.visible = false
-	upgrades_scene = false
-	get_tree().paused = false
+		if aura_level < max_aura_level:
+			update_aura_level(1)
+			update()
+			upgrades_ui.visible = false
+			upgrades_scene = false
+			get_tree().paused = false
+			print_player_status()
 
 func _on_DMG_button_down():
 	if upgrades_scene:
-		update_shoot_dmg_level(1)
-		print_player_status()
-	upgrades_ui.visible = false
-	upgrades_scene = false
-	get_tree().paused = false
+		if shoot_dmg_level < max_shoot_dmg_level:
+			update_shoot_dmg_level(1)
+			upgrades_ui.visible = false
+			upgrades_scene = false
+			get_tree().paused = false
+			print_player_status()
 
 func _on_Pierce_button_down():
 	if upgrades_scene:
-		update_shoot_pierce_level(1)
-		print_player_status()
-	upgrades_ui.visible = false
-	upgrades_scene = false
-	get_tree().paused = false
+		if shoot_pierce_level < max_shoot_pierce_level:
+			update_shoot_pierce_level(1)
+			upgrades_ui.visible = false
+			upgrades_scene = false
+			get_tree().paused = false
+			print_player_status()
 
 func _on_FireRate_button_down():
 	if upgrades_scene:
-		update_fire_rate_level(1)
-		print_player_status()
-	upgrades_ui.visible = false
-	upgrades_scene = false
-	get_tree().paused = false
+		if fire_rate_level < max_fire_rate_level:
+			update_fire_rate_level(1)
+			upgrades_ui.visible = false
+			upgrades_scene = false
+			get_tree().paused = false
+			print_player_status()
 
 func _on_Front_button_down():
 	if upgrades_scene:
-		update_shoot_front_level(1)
-		print_player_status()
-	upgrades_ui.visible = false
-	upgrades_scene = false
-	get_tree().paused = false
+		if shoot_front_level < max_shoot_front_level:
+			update_shoot_front_level(1)
+			upgrades_ui.visible = false
+			upgrades_scene = false
+			get_tree().paused = false
+			print_player_status()
 
 func _on_Back_button_down():
 	if upgrades_scene:
-		update_shoot_back_level(1)
-		print_player_status()
-	upgrades_ui.visible = false
-	upgrades_scene = false
-	get_tree().paused = false
+		if shoot_back_level < max_shoot_back_level:
+			update_shoot_back_level(1)
+			upgrades_ui.visible = false
+			upgrades_scene = false
+			get_tree().paused = false
+			print_player_status()
 
 func print_player_status():
 	print("-----------------------------------------------------")
@@ -343,4 +352,8 @@ func print_player_status():
 	print("Current Life: ", current_life)
 	print("Current XP: ", current_xp)
 	print("XP to Next Level: ", xp_next_level)
+	print("Current Overall Level: ", overall_level())
 	print("-----------------------------------------------------")
+
+func overall_level():
+	return aura_level + fire_rate_level + shoot_front_level + shoot_back_level + shoot_pierce_level + shoot_dmg_level
