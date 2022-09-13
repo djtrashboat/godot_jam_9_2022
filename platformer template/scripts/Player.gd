@@ -11,8 +11,11 @@ onready var effect = $braco/effect#efeito de raio quando o player atira
 onready var mao = $braco/mao
 onready var aura_col = $Aura/CollisionShape2D
 onready var aura_area = $Aura
+onready var upgrades_ui = $Upgrades
 
 #upgrades-----------------------------
+var upgrades_scene = false
+
 var current_xp = 0
 var xp_next_level = 100
 
@@ -30,7 +33,7 @@ var aura_timer_time = 1.0 / aura_ticks_per_sec_base
 
 
 var max_fire_rate_level = 5
-var fire_rate_level = 10
+var fire_rate_level = 1
 onready var atk_cd_base = atk_cd.wait_time
 
 
@@ -48,9 +51,7 @@ var max_shoot_pierce_level = 5
 var shoot_pierce_level = 0
 
 var max_shoot_dmg_level = 5
-var shoot_dmg_level = 5
-
-
+var shoot_dmg_level = 1
 #upgrades-----------------------------
 
 var current_life = 10
@@ -65,19 +66,15 @@ export var speed = Vector2(150,330)
 export var gravity = 12
 
 func _ready():
-	update_fire_rate(0)
+	upgrades_ui.visible = false
+	
+	update_fire_rate_level(0)
 	update_shoot_pierce_level(0)
 	update_shoot_dmg_level(0)
 	update_shoot_back_level(0)
 	update_shoot_front_level(0)
-	update_aura_level(5)
-	print("Player Status: ")
-	print("Aura Level: ", aura_level, " Aura Radius: ", aura_radius, " Aura DPS: ", aura_dps, " Aura Frequency: ", aura_ticks_per_sec_base)
-	print("Fire Rate Level: ", fire_rate_level)
-	print("Shoot Front Level: ", shoot_front_level)
-	print("Shoot Back Level: ", shoot_back_level)
-	print("Shoot Pierce Level: ", shoot_pierce_level)
-	print("Shoot DMG: ", shoot_dmg_level)
+	update_aura_level(0)
+	print_player_status()
 
 func _process(delta):
 	animate()
@@ -94,11 +91,12 @@ func _process(delta):
 		
 	if aura_can_hurt:
 		aura_hurt(aura_dps * aura_timer_time)
+	
+	update_levels()
 
 func _physics_process(delta):
 	calculate_velocity(get_input_direction())
 	move_and_slide(velocity, Vector2.UP)
-	#get_parent().global_player_pos = position
 	get_parent().set_global_player_pos(global_position)
 
 func get_input_direction():
@@ -131,7 +129,7 @@ func calculate_velocity(direction: Vector2):
 		velocity.y = gravity #para a velocidade vertical não ficar aumentando enquanto o player está no chão 
 
 func _draw():
-	draw_circle_arc(Vector2.ZERO, aura_radius, 0, 360, Color(0.0, 0.0, 1.0, aura_level / 3.0))
+	draw_circle_arc(Vector2.ZERO, aura_radius, 0, 360, Color(0.0, 0.0, 1.0, 1.0))
 
 func animate():
 	var mouse_pos = get_global_mouse_position()
@@ -164,7 +162,7 @@ func shoot():
 	for i in range(1, shoot_front_level + 1):
 		var _tiro = TIRO.instance()
 		
-		_tiro.life = shoot_pierce_level
+		_tiro.life = shoot_pierce_level + 1
 		_tiro.dmg = shoot_dmg_level
 		
 		_tiro.position = spawner_de_tiro.global_position
@@ -175,7 +173,7 @@ func shoot():
 	for i in range(1, shoot_back_level + 1):
 		var _tiro = TIRO.instance()
 		
-		_tiro.life = shoot_pierce_level
+		_tiro.life = shoot_pierce_level + 1
 		_tiro.dmg = shoot_dmg_level
 		
 		_tiro.position = spawner_de_tiro.global_position
@@ -218,7 +216,7 @@ func get_hurt():
 		print("rip")
 	print("Current life:", current_life)
 
-func update_fire_rate(increment):
+func update_fire_rate_level(increment):
 	fire_rate_level = clamp(fire_rate_level + increment, 1, max_fire_rate_level)
 	atk_cd.wait_time = atk_cd_base / (fire_rate_level * 1.1)
 
@@ -264,3 +262,74 @@ func aura_hurt(dmg):
 	for i in range(0, len(bodies)):
 		bodies[i].get_hurt(dmg)
 
+func update_levels():
+	if current_xp >= xp_next_level:
+		current_xp = current_xp - xp_next_level
+		upgrades_ui.global_position = global_position - get_parent().get_viewport_rect().size / 4
+		upgrades_ui.visible = true
+		upgrades_ui.modulate.a = 1.0
+		upgrades_scene = true
+		get_tree().paused = true
+
+func _on_Aura_button_down():
+	if upgrades_scene:
+		update_aura_level(1)
+		update()
+		print_player_status()
+	upgrades_ui.visible = false
+	upgrades_scene = false
+	get_tree().paused = false
+
+func _on_DMG_button_down():
+	if upgrades_scene:
+		update_shoot_dmg_level(1)
+		print_player_status()
+	upgrades_ui.visible = false
+	upgrades_scene = false
+	get_tree().paused = false
+
+func _on_Pierce_button_down():
+	if upgrades_scene:
+		update_shoot_pierce_level(1)
+		print_player_status()
+	upgrades_ui.visible = false
+	upgrades_scene = false
+	get_tree().paused = false
+
+func _on_FireRate_button_down():
+	if upgrades_scene:
+		update_fire_rate_level(1)
+		print_player_status()
+	upgrades_ui.visible = false
+	upgrades_scene = false
+	get_tree().paused = false
+
+func _on_Front_button_down():
+	if upgrades_scene:
+		update_shoot_front_level(1)
+		print_player_status()
+	upgrades_ui.visible = false
+	upgrades_scene = false
+	get_tree().paused = false
+
+func _on_Back_button_down():
+	if upgrades_scene:
+		update_shoot_back_level(1)
+		print_player_status()
+	upgrades_ui.visible = false
+	upgrades_scene = false
+	get_tree().paused = false
+
+func print_player_status():
+	print("-----------------------------------------------------")
+	print("Player Status: ")
+	print("Aura Level: ", aura_level, " Aura Radius: ", aura_radius, " Aura DPS: ", aura_dps, " Aura Frequency: ", aura_ticks_per_sec_base)
+	print("Fire Rate Level: ", fire_rate_level)
+	print("Shoot Front Level: ", shoot_front_level)
+	print("Shoot Back Level: ", shoot_back_level)
+	print("Shoot Pierce Level: ", shoot_pierce_level)
+	print("Shoot DMG: ", shoot_dmg_level)
+	print("Current Life: ", current_life)
+	print("Current XP: ", current_xp)
+	print("XP to Next Level: ", xp_next_level)
+	print("-----------------------------------------------------")

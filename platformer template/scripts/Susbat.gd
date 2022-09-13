@@ -1,17 +1,19 @@
 extends KinematicBody2D
 onready var sprite = $AnimatedSprite
 onready var line = $Line2D
+onready var player = get_parent().get_node("Player")
+
 #########
 var vel = Vector2.ZERO
 var life = 2
 var count = 0
 export var speed = 100
 onready var _current_speed = speed
+var exp_value = 15
 
 ########################
 var path: Array = []
 var levelNavigation:Navigation2D = null
-
 
 func _ready():
 	yield(get_tree(), "idle_frame")
@@ -44,18 +46,15 @@ func _on_PathTimer_timeout():
 
 func knockout():
 	_current_speed = -speed
-	yield(get_tree().create_timer(0.08), "timeout")
-	_current_speed = speed
-	generate_path()
+	$knock.start(0)
 
 func get_hurt(amount):
 	life -= amount
 	modulate = Color.red
 	if (life <= 0):
+		player.current_xp += exp_value
 		queue_free()
 
-#func _physics_process(delta):
-#	vel = -(position - get_parent().global_player_pos)
-#	vel = vel.normalized() * 100
-#	move_and_slide(vel, Vector2(0.0, -1.0))
-#
+func _on_knock_timeout():
+	_current_speed = speed
+	generate_path()
