@@ -190,7 +190,7 @@ func shoot():
 		_tiro.set_linear_velocity(dir * 200)
 		get_parent().add_child(_tiro)
 
-	if !is_on_floor():
+	if !is_on_floor() and shoot_back_level != shoot_front_level:
 		apply_impulse(mouse_pos, 270.0 * sign(shoot_front_level - shoot_back_level))
 
 func apply_impulse(pos: Vector2, amount: float):
