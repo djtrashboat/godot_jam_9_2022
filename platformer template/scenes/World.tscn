@@ -17,7 +17,6 @@ extents = Vector2( 257.183, 10 )
 extents = Vector2( 72.0326, 10 )
 
 [node name="World" type="Node2D"]
-z_index = 100
 script = ExtResource( 5 )
 
 [node name="LevelNavigation" type="Navigation2D" parent="." groups=["LevelNavigation"]]
@@ -28,11 +27,9 @@ tile_data = PoolIntArray( -1179644, 2, 0, -1179643, 2, 0, -1179642, 2, 0, -11796
 
 [node name="Susbat" parent="." instance=ExtResource( 4 )]
 position = Vector2( 133.362, -121.963 )
-z_index = 5
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 318.454, 4.31229 )
-z_index = 6
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 visible = false
