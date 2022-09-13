@@ -91,12 +91,16 @@ func _ready():
 func _process(delta):
 	animate()
 	if is_invincible:
-		modulate.a = 0.4
+		sprite.modulate.a = 0.4
+		mao.modulate.a = 0.4
 	else:
-		modulate.a = 1.0
-		modulate = Color.white
+		sprite.modulate.a = 1.0
+		mao.modulate.a = 1.0
+		sprite.modulate = Color.white
+		mao.modulate = Color.white
 	if current_life <= 0:
-		modulate = Color.red
+		sprite.modulate = Color.red
+		mao.modulate = Color.red
 	
 	if Input.is_action_pressed("mouse_right") and !knockedout and can_shoot:
 		shoot()
