@@ -13,6 +13,7 @@ onready var mao = $braco/mao
 onready var aura_col = $Aura/CollisionShape2D
 onready var aura_area = $Aura
 onready var upgrades_ui = $Upgrades
+onready var died = $Died
 
 #upgrades-----------------------------
 var upgrades_scene = false
@@ -70,6 +71,8 @@ export var gravity = 12
 
 func _ready():
 	upgrades_ui.visible = false
+	died.visible = false
+	died.position = Vector2.ZERO
 	for i in range(current_life):
 		var life_ins = LIFE.instance()
 		life_ins.position.x = 25 * i - get_parent().get_viewport_rect().size.x / 2.2
@@ -217,13 +220,17 @@ func shooting_recoil(op_direction: Vector2, amount: float):
 		velocity.x = 0
 		is_recoil = false
 
+func die():
+	died.visible = true
+	get_tree().paused = true
+
 func get_hurt():
 	if not is_invincible:
 		invincible_cd.start()
 		current_life -= 1
 		lifes_instances[current_life].modulate.a = 0.4
 	if current_life <= 0:
-		print("rip")
+		die()
 	print("Current life:", current_life)
 
 func update_fire_rate_level(increment):
@@ -357,3 +364,12 @@ func print_player_status():
 
 func overall_level():
 	return aura_level + fire_rate_level + shoot_front_level + shoot_back_level + shoot_pierce_level + shoot_dmg_level
+
+func _on_Reset_button_down():
+	if current_life <= 0:
+		get_tree().reload_current_scene()
+		get_tree().paused = false
+
+func _on_Quit_button_down():
+	if current_life <= 0:
+		get_tree().quit()
