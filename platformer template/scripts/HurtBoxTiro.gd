@@ -9,3 +9,4 @@ func _on_HurtBox_body_entered(body):
 	enemy.get_hurt(body.dmg)
 	if body.is_in_group("TIRO"):
 		body.take_dmg(1)
+		body.dmg /= 1.5
