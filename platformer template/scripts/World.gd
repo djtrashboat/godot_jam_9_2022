@@ -5,7 +5,7 @@ onready var nav_2d: Navigation2D = $LevelNavigation
 
 func _ready():
 	pass
-	
+
 func _process(delta):
 	pass
 
