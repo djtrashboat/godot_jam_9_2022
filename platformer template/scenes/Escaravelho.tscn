@@ -1,12 +1,42 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/art/escaravelho.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Escaravelho.gd" type="Script" id=2]
+[ext_resource path="res://scenes/HurtBoxTiro.tscn" type="PackedScene" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 12.4574
 
 [node name="Escaravelho" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource( 2 )
 
+[node name="HurtBox" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1.57668, -0.10511 )
+
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2( 9.5, 0 )
+shape = SubResource( 1 )
+
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 12.9784, 0 )
 rotation = 1.5708
 texture = ExtResource( 1 )
 hframes = 2
+
+[node name="TiroSpawn" type="Position2D" parent="Sprite"]
+position = Vector2( -0.5, -16 )
+rotation = -1.5708
+
+[node name="TimerModulate" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="TimerAttack" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="TimerModulate" to="." method="_on_TimerModulate_timeout"]
+[connection signal="timeout" from="TimerAttack" to="." method="_on_TimerAttack_timeout"]
+
+[editable path="HurtBox"]

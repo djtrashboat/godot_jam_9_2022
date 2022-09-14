@@ -26,7 +26,9 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=5]
 radius = 1.6618
 
-[node name="Tiro" type="RigidBody2D" groups=["TIRO"]]
+[node name="Tiro" type="RigidBody2D" groups=[
+"TIRO",
+]]
 z_index = 101
 collision_layer = 8
 mass = 0.00102041

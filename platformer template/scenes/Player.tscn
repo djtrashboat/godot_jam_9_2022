@@ -188,6 +188,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="HurtBoxPlayer" parent="." instance=ExtResource( 9 )]
+collision_mask = 20
 
 [node name="CollisionShape2D" parent="HurtBoxPlayer" index="0"]
 position = Vector2( 1, 6 )
