@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/shooteffect.png-7e8ffb30982d155ad26e1b66045dc92b.stex"
+path="res://.import/barra_de_xp_full.png-d71e5a25e12261ff2c492d469dd00f6c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/shooteffect.png"
-dest_files=[ "res://.import/shooteffect.png-7e8ffb30982d155ad26e1b66045dc92b.stex" ]
+source_file="res://assets/art/barra_de_xp_full.png"
+dest_files=[ "res://.import/barra_de_xp_full.png-d71e5a25e12261ff2c492d469dd00f6c.stex" ]
 
 [params]
 

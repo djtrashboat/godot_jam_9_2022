@@ -74,7 +74,7 @@ animations = [ {
 "frames": [ SubResource( 10 ) ],
 "loop": true,
 "name": "KO2",
-"speed": 5.0
+"speed": 0.1
 }, {
 "frames": [ SubResource( 1 ), SubResource( 2 ) ],
 "loop": true,
@@ -236,18 +236,22 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="XPBar" parent="." instance=ExtResource( 1 )]
-margin_left = -248.0
-margin_top = -106.0
-margin_right = -147.0
-margin_bottom = -92.0
-
 [node name="Life" parent="." instance=ExtResource( 14 )]
 position = Vector2( -235, -122 )
 
 [node name="AuraCircle" type="Sprite" parent="."]
 scale = Vector2( 2, 2 )
 texture = ExtResource( 15 )
+
+[node name="XPBar" parent="." instance=ExtResource( 1 )]
+margin_left = -258.0
+margin_top = -109.0
+margin_right = -188.0
+margin_bottom = -89.0
+rect_scale = Vector2( 2, 2 )
+value = 100.0
+
+[node name="dead_time" type="Timer" parent="."]
 
 [connection signal="animation_finished" from="braco/effect" to="." method="_on_effect_animation_finished"]
 [connection signal="timeout" from="atk_cd" to="." method="_on_atk_cd_timeout"]
@@ -261,6 +265,7 @@ texture = ExtResource( 15 )
 [connection signal="button_down" from="Upgrades/Back" to="." method="_on_Back_button_down"]
 [connection signal="button_down" from="Died/Reset" to="." method="_on_Reset_button_down"]
 [connection signal="button_down" from="Died/Quit" to="." method="_on_Quit_button_down"]
+[connection signal="timeout" from="dead_time" to="." method="_on_dead_time_timeout"]
 
 [editable path="HurtBoxPlayer"]
 [editable path="Aura"]
