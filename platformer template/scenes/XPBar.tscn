@@ -1,0 +1,7 @@
+[gd_scene format=2]
+
+[node name="XPBar" type="ProgressBar"]
+margin_right = 101.0
+margin_bottom = 14.0
+value = 50.0
+percent_visible = false
