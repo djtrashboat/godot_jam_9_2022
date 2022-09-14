@@ -83,12 +83,15 @@ func _ready():
 	died.position = Vector2.ZERO        #center
 	upgrades_ui.position = Vector2.ZERO #center
 	lifes_instances.push_back(life_base_node)
-	for i in range(len(lifes_instances), current_life):
+	for i in range(len(lifes_instances), max_life):
 		var life_ins = LIFE.instance()
 		life_ins.position.x = lifes_instances[i - 1].position.x + 35
 		life_ins.position.y = lifes_instances[i - 1].position.y
 		lifes_instances.append(life_ins)
 		add_child(life_ins)
+		
+	for i in range(current_life, max_life):
+		lifes_instances[i].modulate.a = 0.4
 	update_fire_rate_level(0)
 	update_shoot_pierce_level(0)
 	update_shoot_dmg_level(0)
@@ -98,9 +101,8 @@ func _ready():
 	print_player_status()
 
 func _process(delta):
-	if current_life > 0:
-		animate()
-	if is_invincible:
+	animate()
+	if is_invincible and current_life > 0:
 		sprite.modulate.a = 0.4
 		mao.modulate.a = 0.4
 	else:
@@ -108,9 +110,9 @@ func _process(delta):
 		mao.modulate.a = 1.0
 		sprite.modulate = Color.white
 		mao.modulate = Color.white
-	if current_life <= 0:
-		sprite.modulate = Color.red
-		mao.modulate = Color.red
+	#if current_life <= 0:
+	#	sprite.modulate = Color.red
+	#	mao.modulate = Color.red
 	
 	if Input.is_action_pressed("mouse_right") and !knockedout and can_shoot and current_life > 0:
 		shoot()
@@ -168,8 +170,12 @@ func animate():
 		sprite.flip_h = true
 	else:
 		sprite.flip_h = false
-	
-	if knockedout:
+	if current_life <= 0:
+		sprite.play("Dying")
+		sprite.modulate.a = 1.0
+		mao.modulate.a = 1.0
+		mao.visible = false
+	elif knockedout:
 		if global_position.x>get_global_mouse_position().x:
 			sprite.flip_h = false
 		else:
@@ -247,10 +253,10 @@ func get_hurt():
 	if not is_invincible:
 		invincible_cd.start()
 		current_life -= 1
-		lifes_instances[current_life].modulate.a = 0.4
+		for i in range(current_life, max_life):
+			lifes_instances[i].modulate.a = 0.4
 	if current_life <= 0:
 		dead_timer.start(0)
-		sprite.play("KO2")
 	print("Current life:", current_life)
 
 func update_fire_rate_level(increment):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://scenes/XPBar.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
@@ -15,6 +15,27 @@
 [ext_resource path="res://assets/art/gato_animado.png" type="Texture" id=13]
 [ext_resource path="res://scenes/LifeScene.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/art/circlo.png" type="Texture" id=15]
+[ext_resource path="res://assets/art/gato_morto.png" type="Texture" id=16]
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 16 )
+region = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 16 )
+region = Rect2( 40, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 16 )
+region = Rect2( 80, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 16 )
+region = Rect2( 120, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 16 )
+region = Rect2( 160, 0, 40, 40 )
 
 [sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 6 )
@@ -66,6 +87,11 @@ region = Rect2( 105, 0, 35, 35 )
 
 [sub_resource type="SpriteFrames" id=11]
 animations = [ {
+"frames": [ SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"loop": false,
+"name": "Dying",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
 "loop": true,
 "name": "KO1",
@@ -74,7 +100,7 @@ animations = [ {
 "frames": [ SubResource( 10 ) ],
 "loop": true,
 "name": "KO2",
-"speed": 0.1
+"speed": 1.0
 }, {
 "frames": [ SubResource( 1 ), SubResource( 2 ) ],
 "loop": true,
@@ -129,8 +155,8 @@ script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
-animation = "KO1"
-frame = 2
+animation = "Dying"
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
