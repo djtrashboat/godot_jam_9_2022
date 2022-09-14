@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tileset-placeholder.png-6d0d453b2801d032dc1e4662d3824acd.stex"
+path="res://.import/circlo.png-e585aa8a25c611091b75c4abbe28ceb9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/tileset-placeholder.png"
-dest_files=[ "res://.import/tileset-placeholder.png-6d0d453b2801d032dc1e4662d3824acd.stex" ]
+source_file="res://assets/art/circlo.png"
+dest_files=[ "res://.import/circlo.png-e585aa8a25c611091b75c4abbe28ceb9.stex" ]
 
 [params]
 
@@ -24,7 +24,7 @@ flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false

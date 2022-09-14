@@ -17,6 +17,7 @@ onready var died = $Died
 onready var life_base_node = $Life
 onready var xp_bar = $XPBar
 onready var camera = $Camera2D
+onready var aura_circle = $AuraCircle
 
 #upgrades-----------------------------
 var upgrades_scene = false
@@ -26,7 +27,7 @@ var aura_level = 0
 var aura_can_hurt = true
 
 var aura_radius = 0
-var aura_radius_base = 4
+var aura_radius_base = 50
 
 var aura_dps = 0
 var aura_dps_base = 1
@@ -74,6 +75,8 @@ export var speed = Vector2(150,330)
 export var gravity = 12
 
 func _ready():
+	aura_circle.visible = false
+	aura_circle.modulate.a = 0.5
 	upgrades_ui.visible = false
 	died.visible = false
 	died.position = Vector2.ZERO        #center
@@ -85,7 +88,6 @@ func _ready():
 		life_ins.position.y = lifes_instances[i - 1].position.y
 		lifes_instances.append(life_ins)
 		add_child(life_ins)
-		
 	update_fire_rate_level(0)
 	update_shoot_pierce_level(0)
 	update_shoot_dmg_level(0)
@@ -152,7 +154,8 @@ func calculate_velocity(direction: Vector2):
 		velocity.y = gravity #para a velocidade vertical não ficar aumentando enquanto o player está no chão 
 
 func _draw():
-	draw_circle_arc(Vector2.ZERO, aura_radius, 0, 360, Color(0.0, 0.0, 1.0, 1.0))
+	if aura_level > 0:
+		draw_circle_arc(Vector2.ZERO, aura_radius, 0, 360, Color(0.0, 0.0, 1.0, 1.0))
 
 func animate():
 	var mouse_pos = get_global_mouse_position()
@@ -166,7 +169,7 @@ func animate():
 			sprite.flip_h = false
 		else:
 			sprite.flip_h = true	
-		sprite.play("KO2")
+		sprite.play("KO1")
 	elif !is_on_floor():
 		sprite.play("jump")
 	elif velocity.x>1 or velocity.x<-1:
@@ -264,10 +267,12 @@ func update_shoot_back_level(increment):
 
 func update_aura_level(increment):
 	aura_level = clamp(aura_level + increment, 0, max_aura_level)
-	aura_radius = aura_radius_base * aura_level * 5;
+	aura_radius = aura_radius_base# * aura_level * 1
 	aura_dps = aura_dps_base * aura_level * 1.5
 	aura_col.shape.radius = aura_radius
 	$aura_tick.wait_time = aura_timer_time
+	if aura_level > 0:
+		aura_circle.visible = true
 
 #https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html
 func draw_circle_arc(center, radius, angle_from, angle_to, color):
@@ -308,7 +313,7 @@ func _on_Aura_button_down():
 	if upgrades_scene:
 		if aura_level < max_aura_level:
 			update_aura_level(1)
-			update()
+			#update()
 			upgrades_ui.visible = false
 			upgrades_scene = false
 			get_tree().paused = false
