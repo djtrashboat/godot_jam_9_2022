@@ -1,19 +1,10 @@
 extends StaticBody2D
 
-#	var _tiro = TIRO.instance()
-#
-#		_tiro.life = shoot_pierce_level + 1
-#		_tiro.dmg = shoot_dmg_level
-#
-#		_tiro.position = spawner_de_tiro.global_position
-#		var dir = (mouse_pos - _tiro.position).normalized().rotated(-k_fov_shoot / 2 + i * dtheta_front)
-#		_tiro.set_linear_velocity(dir * 200)
-#		get_parent().add_child(_tiro)
-
 const TIRO = preload("res://scenes/TiroEscaravelho.tscn")
 
 onready var timer_modulate = $TimerModulate
 onready var spawner_de_tiro = $Sprite/TiroSpawn
+onready var sprite = $Sprite
 
 export var hp = 4
 
@@ -43,6 +34,9 @@ func shoot():
 	_tiro.set_linear_velocity(dir * 200)
 	print(dir)
 	get_parent().add_child(_tiro)
+	sprite.frame = 1
+	yield(get_tree().create_timer(0.08), "timeout")
+	sprite.frame = 0
 
 
 func _on_TimerAttack_timeout():
