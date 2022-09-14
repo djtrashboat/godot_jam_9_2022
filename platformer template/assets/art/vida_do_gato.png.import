@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/life.png-a236955684aca7ef9596d15a25d28fa1.stex"
+path="res://.import/vida_do_gato.png-730fb9a4f7ecf7b755d237a3b93b628a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/life.png"
-dest_files=[ "res://.import/life.png-a236955684aca7ef9596d15a25d28fa1.stex" ]
+source_file="res://assets/art/vida_do_gato.png"
+dest_files=[ "res://.import/vida_do_gato.png-730fb9a4f7ecf7b755d237a3b93b628a.stex" ]
 
 [params]
 
