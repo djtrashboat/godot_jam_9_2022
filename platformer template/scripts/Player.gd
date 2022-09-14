@@ -110,9 +110,7 @@ func _process(delta):
 		mao.modulate.a = 1.0
 		sprite.modulate = Color.white
 		mao.modulate = Color.white
-	#if current_life <= 0:
-	#	sprite.modulate = Color.red
-	#	mao.modulate = Color.red
+
 	
 	if Input.is_action_pressed("mouse_right") and !knockedout and can_shoot and current_life > 0:
 		shoot()
@@ -120,9 +118,9 @@ func _process(delta):
 	if aura_can_hurt and current_life > 0:
 		aura_hurt(aura_dps * aura_timer_time)
 	
+	xp_bar.value = current_xp
 	if current_life > 0:
 		update_levels()
-	xp_bar.value = current_xp
 
 func _physics_process(delta):
 	calculate_velocity(get_input_direction())
