@@ -14,11 +14,13 @@ onready var aura_col = $Aura/CollisionShape2D
 onready var aura_area = $Aura
 onready var upgrades_ui = $Upgrades
 onready var died = $Died
+onready var xp_bar = $XPBar
+onready var camera = $Camera2D
 
 #upgrades-----------------------------
 var upgrades_scene = false
 
-var max_aura_level = 5 
+var max_aura_level = 5
 var aura_level = 0
 var aura_can_hurt = true
 
@@ -57,7 +59,8 @@ var xp_next_level = 100
 var max_overall_level = max_aura_level + max_fire_rate_level + max_shoot_front_level + max_shoot_back_level + max_shoot_pierce_level + max_shoot_dmg_level
 #upgrades-----------------------------
 
-var current_life = 10
+var current_life = 5
+var max_life = 5
 var lifes_instances: Array = []
 
 var velocity = Vector2.ZERO
@@ -73,6 +76,7 @@ func _ready():
 	upgrades_ui.visible = false
 	died.visible = false
 	died.position = Vector2.ZERO
+	xp_bar.set_position(Vector2(-get_parent().get_viewport_rect().size.x / 2.1, position.y - get_parent().get_viewport_rect().size.y / 2.4))
 	for i in range(current_life):
 		var life_ins = LIFE.instance()
 		life_ins.position.x = 25 * i - get_parent().get_viewport_rect().size.x / 2.2
@@ -109,6 +113,7 @@ func _process(delta):
 		aura_hurt(aura_dps * aura_timer_time)
 	
 	update_levels()
+	xp_bar.value = current_xp	
 
 func _physics_process(delta):
 	calculate_velocity(get_input_direction())
@@ -232,7 +237,7 @@ func get_hurt():
 	if not is_invincible:
 		invincible_cd.start()
 		current_life -= 1
-		lifes_instances[current_life].modulate.a = 0.4
+		lifes_instances[current_life].modulate = Color.black
 	if current_life <= 0:
 		die()
 	print("Current life:", current_life)
@@ -286,6 +291,8 @@ func aura_hurt(dmg):
 func update_levels():
 	if current_xp >= xp_next_level:
 		current_xp = current_xp - xp_next_level
+		xp_next_level = calc_xp_next_level(overall_level() + 1)
+		xp_bar.max_value = xp_next_level
 		print_player_status()
 		if overall_level() < max_overall_level:
 			upgrades_ui.global_position = global_position - get_parent().get_viewport_rect().size / 4
@@ -293,7 +300,7 @@ func update_levels():
 			upgrades_scene = true
 			get_tree().paused = true
 			upgrades_ui.modulate.a = 1.0
-			get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time = clamp(get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time / 1.5, 0.1, 2)
+			get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time = clamp(get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time / 1.35, 0.1, 2)
 		print(get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time)
 
 func _on_Aura_button_down():
@@ -377,3 +384,6 @@ func _on_Reset_button_down():
 func _on_Quit_button_down():
 	if current_life <= 0:
 		get_tree().quit()
+
+func calc_xp_next_level(level):
+	return 50 * level
