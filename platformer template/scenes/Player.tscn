@@ -1,11 +1,11 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://scenes/XPBar.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
 [ext_resource path="res://scripts/Camera2D.gd" type="Script" id=3]
 [ext_resource path="res://assets/art/hand.png" type="Texture" id=4]
 [ext_resource path="res://scripts/braco.gd" type="Script" id=5]
-[ext_resource path="res://assets/art/knockedout.png" type="Texture" id=6]
+[ext_resource path="res://assets/art/gato_caino.png" type="Texture" id=6]
 [ext_resource path="res://assets/art/shooteffect.png" type="Texture" id=7]
 [ext_resource path="res://scenes/TiroSpawner.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/HurtBoxPlayer.tscn" type="PackedScene" id=9]
@@ -14,14 +14,23 @@
 [ext_resource path="res://scenes/Died.tscn" type="PackedScene" id=12]
 [ext_resource path="res://assets/art/gato_animado.png" type="Texture" id=13]
 [ext_resource path="res://scenes/LifeScene.tscn" type="PackedScene" id=14]
+[ext_resource path="res://assets/art/circlo.png" type="Texture" id=15]
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 32, 32 )
+region = Rect2( 0, 0, 35, 35 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 6 )
-region = Rect2( 32, 0, 32, 32 )
+region = Rect2( 35, 0, 35, 35 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 6 )
+region = Rect2( 70, 0, 35, 35 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 6 )
+region = Rect2( 105, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 13 )
@@ -57,7 +66,7 @@ region = Rect2( 105, 0, 35, 35 )
 
 [sub_resource type="SpriteFrames" id=11]
 animations = [ {
-"frames": [ SubResource( 3 ), SubResource( 4 ) ],
+"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
 "loop": true,
 "name": "KO1",
 "speed": 5.0
@@ -120,8 +129,8 @@ script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 11 )
-animation = "run"
-frame = 1
+animation = "KO1"
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -235,6 +244,10 @@ margin_bottom = -92.0
 
 [node name="Life" parent="." instance=ExtResource( 14 )]
 position = Vector2( -235, -122 )
+
+[node name="AuraCircle" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 15 )
 
 [connection signal="animation_finished" from="braco/effect" to="." method="_on_effect_animation_finished"]
 [connection signal="timeout" from="atk_cd" to="." method="_on_atk_cd_timeout"]

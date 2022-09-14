@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tileset-placeholder.png-6d0d453b2801d032dc1e4662d3824acd.stex"
+path="res://.import/gato_caino.png-7358b74a4ac1ed8dae85998a7c78533e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/tileset-placeholder.png"
-dest_files=[ "res://.import/tileset-placeholder.png-6d0d453b2801d032dc1e4662d3824acd.stex" ]
+source_file="res://assets/art/gato_caino.png"
+dest_files=[ "res://.import/gato_caino.png-7358b74a4ac1ed8dae85998a7c78533e.stex" ]
 
 [params]
 
@@ -24,7 +24,7 @@ flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
