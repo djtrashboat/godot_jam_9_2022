@@ -14,6 +14,7 @@ onready var aura_col = $Aura/CollisionShape2D
 onready var aura_area = $Aura
 onready var upgrades_ui = $Upgrades
 onready var died = $Died
+onready var life_base_node = $Life
 onready var xp_bar = $XPBar
 onready var camera = $Camera2D
 
@@ -75,12 +76,13 @@ export var gravity = 12
 func _ready():
 	upgrades_ui.visible = false
 	died.visible = false
-	died.position = Vector2.ZERO
-	xp_bar.set_position(Vector2(-get_parent().get_viewport_rect().size.x / 2.1, position.y - get_parent().get_viewport_rect().size.y / 2.4))
-	for i in range(current_life):
+	died.position = Vector2.ZERO        #center
+	upgrades_ui.position = Vector2.ZERO #center
+	lifes_instances.push_back(life_base_node)
+	for i in range(len(lifes_instances), current_life):
 		var life_ins = LIFE.instance()
-		life_ins.position.x = 25 * i - get_parent().get_viewport_rect().size.x / 2.2
-		life_ins.position.y = position.y - get_parent().get_viewport_rect().size.y / 2.2
+		life_ins.position.x = lifes_instances[i - 1].position.x + 35
+		life_ins.position.y = lifes_instances[i - 1].position.y
 		lifes_instances.append(life_ins)
 		add_child(life_ins)
 		
@@ -113,7 +115,7 @@ func _process(delta):
 		aura_hurt(aura_dps * aura_timer_time)
 	
 	update_levels()
-	xp_bar.value = current_xp	
+	xp_bar.value = current_xp
 
 func _physics_process(delta):
 	calculate_velocity(get_input_direction())
@@ -237,7 +239,7 @@ func get_hurt():
 	if not is_invincible:
 		invincible_cd.start()
 		current_life -= 1
-		lifes_instances[current_life].modulate = Color.black
+		lifes_instances[current_life].modulate.a = 0.4
 	if current_life <= 0:
 		die()
 	print("Current life:", current_life)
@@ -289,13 +291,12 @@ func aura_hurt(dmg):
 		bodies[i].get_hurt(dmg)
 
 func update_levels():
-	if current_xp >= xp_next_level:
+	if current_xp >= xp_next_level and overall_level() < max_overall_level:
 		current_xp = current_xp - xp_next_level
 		xp_next_level = calc_xp_next_level(overall_level() + 1)
 		xp_bar.max_value = xp_next_level
 		print_player_status()
 		if overall_level() < max_overall_level:
-			upgrades_ui.global_position = global_position - get_parent().get_viewport_rect().size / 4
 			upgrades_ui.visible = true
 			upgrades_scene = true
 			get_tree().paused = true
