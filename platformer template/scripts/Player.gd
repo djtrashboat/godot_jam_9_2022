@@ -18,6 +18,7 @@ onready var life_base_node = $Life
 onready var xp_bar = $XPBar
 onready var camera = $Camera2D
 onready var aura_circle = $AuraCircle
+onready var dead_timer = $dead_time
 
 #upgrades-----------------------------
 var upgrades_scene = false
@@ -97,7 +98,8 @@ func _ready():
 	print_player_status()
 
 func _process(delta):
-	animate()
+	if current_life > 0:
+		animate()
 	if is_invincible:
 		sprite.modulate.a = 0.4
 		mao.modulate.a = 0.4
@@ -110,17 +112,20 @@ func _process(delta):
 		sprite.modulate = Color.red
 		mao.modulate = Color.red
 	
-	if Input.is_action_pressed("mouse_right") and !knockedout and can_shoot:
+	if Input.is_action_pressed("mouse_right") and !knockedout and can_shoot and current_life > 0:
 		shoot()
 		
-	if aura_can_hurt:
+	if aura_can_hurt and current_life > 0:
 		aura_hurt(aura_dps * aura_timer_time)
 	
-	update_levels()
+	if current_life > 0:
+		update_levels()
 	xp_bar.value = current_xp
 
 func _physics_process(delta):
 	calculate_velocity(get_input_direction())
+	if current_life <= 0:
+		velocity.x = 0
 	move_and_slide(velocity, Vector2.UP)
 	get_parent().set_global_player_pos(global_position)
 
@@ -244,7 +249,8 @@ func get_hurt():
 		current_life -= 1
 		lifes_instances[current_life].modulate.a = 0.4
 	if current_life <= 0:
-		die()
+		dead_timer.start(0)
+		sprite.play("KO2")
 	print("Current life:", current_life)
 
 func update_fire_rate_level(increment):
@@ -393,3 +399,6 @@ func _on_Quit_button_down():
 
 func calc_xp_next_level(level):
 	return 50 * level
+
+func _on_dead_time_timeout():
+	die()
