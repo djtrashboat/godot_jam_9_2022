@@ -311,6 +311,7 @@ func update_levels():
 		
 	elif current_xp >= xp_next_level and overall_level() < max_overall_level:
 		current_xp = current_xp - xp_next_level
+		xp_bar.value = current_xp
 		xp_next_level = calc_xp_next_level(overall_level() + 1)
 		xp_bar.max_value = xp_next_level
 		print_player_status()
