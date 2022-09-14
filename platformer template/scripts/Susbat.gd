@@ -50,7 +50,8 @@ func knockout():
 
 func get_hurt(amount):
 	life -= amount
-	modulate = Color.red
+	if life <= 1:
+		modulate = Color.red
 	if (life <= 0):
 		player.current_xp += exp_value
 		queue_free()
