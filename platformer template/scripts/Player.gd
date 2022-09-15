@@ -73,7 +73,7 @@ var is_recoil = false#ativo após o player atirar no chão, ele perde o controle
 var is_invincible = false
 
 export var speed = Vector2(150,330)
-export var gravity = 12
+onready var gravity = get_parent().gravity
 
 func _ready():
 	aura_circle.visible = false
@@ -110,7 +110,6 @@ func _process(delta):
 		mao.modulate.a = 1.0
 		sprite.modulate = Color.white
 		mao.modulate = Color.white
-
 	
 	if Input.is_action_pressed("mouse_right") and !knockedout and can_shoot and current_life > 0:
 		shoot()
@@ -171,7 +170,7 @@ func animate():
 	if current_life <= 0:
 		sprite.play("Dying")
 		sprite.modulate.a = 1.0
-		mao.modulate.a = 1.0
+		mao.modulate.a = 0.0
 		mao.visible = false
 	elif knockedout:
 		if global_position.x>get_global_mouse_position().x:
@@ -253,9 +252,8 @@ func get_hurt():
 		current_life -= 1
 		for i in range(current_life, max_life):
 			lifes_instances[i].modulate.a = 0.4
-	if current_life <= 0:
-		dead_timer.start(0)
-	print("Current life:", current_life)
+	if current_life <= 0 and dead_timer.is_stopped():
+		dead_timer.start()
 
 func update_fire_rate_level(increment):
 	fire_rate_level = clamp(fire_rate_level + increment, 1, max_fire_rate_level)
@@ -313,6 +311,7 @@ func update_levels():
 		current_xp = current_xp - xp_next_level
 		xp_next_level = calc_xp_next_level(overall_level() + 1)
 		xp_bar.max_value = xp_next_level
+		xp_bar.value = current_xp
 		print_player_status()
 		if overall_level() < max_overall_level:
 			upgrades_ui.visible = true

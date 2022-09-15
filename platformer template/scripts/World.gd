@@ -1,6 +1,8 @@
 extends Node2D
 var global_player_pos = Vector2.ZERO
 const SUSBAT_SCENE = preload("res://scenes/Susbat.tscn")
+const XP_DROP_SCENE = preload("res://scenes/XPDrop.tscn")
+var gravity = 12
 onready var nav_2d: Navigation2D = $LevelNavigation
 
 func _ready():
