@@ -13,7 +13,3 @@ func explode():
 
 func _on_AnimatedSprite_animation_finished():
 	queue_free()
-
-func _on_hitbox_body_entered(body):
-	#print("player get fck")
-	pass
