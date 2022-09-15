@@ -64,27 +64,27 @@ region = Rect2( 160, 0, 40, 40 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 13 )
-region = Rect2( 105, 0, 35, 35 )
+region = Rect2( 35, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 35, 35 )
+region = Rect2( 105, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 13 )
-region = Rect2( 35, 0, 35, 35 )
+region = Rect2( 0, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 13 )
-region = Rect2( 70, 0, 35, 35 )
+region = Rect2( 35, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 13 )
-region = Rect2( 105, 0, 35, 35 )
+region = Rect2( 70, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 13 )
-region = Rect2( 35, 0, 35, 35 )
+region = Rect2( 105, 0, 35, 35 )
 
 [sub_resource type="SpriteFrames" id=18]
 animations = [ {
@@ -105,18 +105,18 @@ animations = [ {
 }, {
 "frames": [ SubResource( 12 ) ],
 "loop": true,
+"name": "KO2",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 13 ) ],
+"loop": true,
 "name": "jump",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
+"frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
 "loop": true,
 "name": "run",
 "speed": 8.0
-}, {
-"frames": [ SubResource( 17 ) ],
-"loop": true,
-"name": "KO2",
-"speed": 1.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=19]
