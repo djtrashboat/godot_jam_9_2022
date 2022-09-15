@@ -19,6 +19,7 @@ onready var xp_bar = $XPBar
 onready var camera = $Camera2D
 onready var aura_circle = $AuraCircle
 onready var dead_timer = $dead_time
+onready var shoot_sound = $LaserShot
 
 #upgrades-----------------------------
 var upgrades_scene = false
@@ -192,6 +193,7 @@ func shoot():
 	effect.visible = true
 	effect.play("default")
 	shooting_recoil(mouse_pos, 50.0 * sign(shoot_front_level - shoot_back_level))
+	shoot_sound.play()
 	
 	for i in range(1, shoot_front_level + 1):
 		var _tiro = TIRO.instance()

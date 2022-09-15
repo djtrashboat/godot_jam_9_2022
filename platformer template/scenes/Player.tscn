@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://scenes/XPBar.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=2]
@@ -16,14 +16,7 @@
 [ext_resource path="res://scenes/LifeScene.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/art/circlo.png" type="Texture" id=15]
 [ext_resource path="res://assets/art/gato_morto.png" type="Texture" id=16]
-
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 13 )
-region = Rect2( 140, 0, 35, 35 )
-
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 13 )
-region = Rect2( 175, 0, 35, 35 )
+[ext_resource path="res://assets/sounds/LaserShot.wav" type="AudioStream" id=17]
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 16 )
@@ -45,9 +38,37 @@ region = Rect2( 120, 0, 40, 40 )
 atlas = ExtResource( 16 )
 region = Rect2( 160, 0, 40, 40 )
 
+[sub_resource type="AtlasTexture" id=33]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 35, 35 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 6 )
+region = Rect2( 35, 0, 35, 35 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 6 )
+region = Rect2( 70, 0, 35, 35 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 6 )
+region = Rect2( 105, 0, 35, 35 )
+
 [sub_resource type="AtlasTexture" id=29]
 atlas = ExtResource( 13 )
 region = Rect2( 35, 0, 35, 35 )
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 13 )
+region = Rect2( 140, 0, 35, 35 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 13 )
+region = Rect2( 175, 0, 35, 35 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 13 )
+region = Rect2( 105, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 13 )
@@ -65,36 +86,16 @@ region = Rect2( 70, 0, 35, 35 )
 atlas = ExtResource( 13 )
 region = Rect2( 105, 0, 35, 35 )
 
-[sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 35, 35 )
-
-[sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 6 )
-region = Rect2( 35, 0, 35, 35 )
-
-[sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 6 )
-region = Rect2( 70, 0, 35, 35 )
-
-[sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 6 )
-region = Rect2( 105, 0, 35, 35 )
-
-[sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 13 )
-region = Rect2( 105, 0, 35, 35 )
-
 [sub_resource type="SpriteFrames" id=38]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ) ],
-"loop": true,
-"name": "idle",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ) ],
 "loop": false,
 "name": "Dying",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
+"loop": true,
+"name": "KO1",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 29 ) ],
@@ -102,20 +103,20 @@ animations = [ {
 "name": "KO2",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 30 ), SubResource( 10 ), SubResource( 31 ), SubResource( 32 ) ],
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
 "loop": true,
-"name": "run",
-"speed": 8.0
-}, {
-"frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
-"loop": true,
-"name": "KO1",
+"name": "idle",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 37 ) ],
 "loop": true,
 "name": "jump",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 30 ), SubResource( 10 ), SubResource( 31 ), SubResource( 32 ) ],
+"loop": true,
+"name": "run",
+"speed": 8.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=19]
@@ -270,6 +271,9 @@ value = 100.0
 
 [node name="dead_time" type="Timer" parent="."]
 wait_time = 2.0
+
+[node name="LaserShot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
 
 [connection signal="animation_finished" from="braco/effect" to="." method="_on_effect_animation_finished"]
 [connection signal="timeout" from="atk_cd" to="." method="_on_atk_cd_timeout"]
