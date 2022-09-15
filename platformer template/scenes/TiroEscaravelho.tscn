@@ -44,7 +44,7 @@ animations = [ {
 radius = 5.0
 
 [sub_resource type="CircleShape2D" id=9]
-radius = 100.779
+radius = 18.3439
 
 [node name="TiroEscaravelho" type="RigidBody2D"]
 z_index = 101
@@ -62,6 +62,7 @@ __meta__ = {
 position = Vector2( 0.5, 0.5 )
 frames = SubResource( 7 )
 animation = "explode"
+frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 8 )
