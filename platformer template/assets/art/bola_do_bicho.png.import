@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/gato_caino.png-7358b74a4ac1ed8dae85998a7c78533e.stex"
+path="res://.import/bola_do_bicho.png-d161ba332351796238af36b8db6e534a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/gato_caino.png"
-dest_files=[ "res://.import/gato_caino.png-7358b74a4ac1ed8dae85998a7c78533e.stex" ]
+source_file="res://assets/art/bola_do_bicho.png"
+dest_files=[ "res://.import/bola_do_bicho.png-d161ba332351796238af36b8db6e534a.stex" ]
 
 [params]
 
