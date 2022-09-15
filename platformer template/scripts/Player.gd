@@ -409,3 +409,8 @@ func calc_xp_next_level(level):
 
 func _on_dead_time_timeout():
 	die()
+
+func update_life_sprite():
+	current_life = clamp(current_life, 0, max_life)
+	lifes_instances[current_life - 1].modulate.a = 1.0
+	

@@ -17,5 +17,6 @@ func _process(delta):
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
-		body.current_xp += exp_value
+		body.current_life += 1
+		body.update_life_sprite()
 		queue_free()
