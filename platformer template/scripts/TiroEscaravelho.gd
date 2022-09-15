@@ -7,5 +7,13 @@ func _on_TiroEscaravelho_body_entered(body):
 	explode()
 
 func explode():
-	print("explode")
+	sleeping = true
+	$AnimatedSprite.play("explode")
+	$hitbox/CollisionShape2D.call_deferred("set_disabled", false)
+
+func _on_AnimatedSprite_animation_finished():
 	queue_free()
+
+func _on_hitbox_body_entered(body):
+	#print("player get fck")
+	pass
