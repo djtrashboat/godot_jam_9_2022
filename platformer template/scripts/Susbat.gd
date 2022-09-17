@@ -8,7 +8,7 @@ var count = 0
 export var speed = 100
 onready var _current_speed = speed
 var exp_value = 15
-var life_chance = 0.3
+var life_chance = 0.05
 var rand = RandomNumberGenerator.new()
 ########################
 var path: Array = []
