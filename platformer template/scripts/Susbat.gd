@@ -58,7 +58,6 @@ func get_hurt(amount):
 		get_parent().call_deferred("add_child", xpdrop)
 		rand.randomize()
 		var r = rand.randf_range(0, 1)
-		print(r)
 		if r < life_chance:
 			var lifedrop = get_parent().LIFE_DROP_SCENE.instance()
 			lifedrop.global_position = global_position
