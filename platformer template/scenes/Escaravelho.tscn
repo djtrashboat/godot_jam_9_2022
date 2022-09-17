@@ -36,7 +36,11 @@ one_shot = true
 [node name="TimerAttack" type="Timer" parent="."]
 autostart = true
 
+[node name="REM_ERRORS" type="Timer" parent="."]
+wait_time = 0.08
+
 [connection signal="timeout" from="TimerModulate" to="." method="_on_TimerModulate_timeout"]
 [connection signal="timeout" from="TimerAttack" to="." method="_on_TimerAttack_timeout"]
+[connection signal="timeout" from="REM_ERRORS" to="." method="_on_REM_ERRORS_timeout"]
 
 [editable path="HurtBox"]

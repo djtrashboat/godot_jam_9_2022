@@ -39,10 +39,13 @@ func shoot():
 	_tiro.set_linear_velocity(dir * 200)
 	get_parent().add_child(_tiro)
 	sprite.frame = 1
-	yield(get_tree().create_timer(0.08), "timeout")
+	#yield(get_tree().create_timer(0.08), "timeout")
 	sprite.frame = 0
 
 
 func _on_TimerAttack_timeout():
-	print("shoot")
 	shoot()
+
+
+func _on_REM_ERRORS_timeout():
+	sprite.frame = 0

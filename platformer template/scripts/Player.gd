@@ -3,6 +3,9 @@ extends KinematicBody2D
 const TIRO = preload("res://scenes/Tiro.tscn")
 const LIFE = preload("res://scenes/LifeScene.tscn")
 const MAXLIFE = 10
+const SUSBAT_SPAWN_FACTOR = 1.35
+const LVL_TO_SPAWN_ESC = 4
+const ESC_SPAWN_FACTOR = 1.1
 
 onready var spawner_de_tiro = $braco/TiroSpawner
 onready var sprite = $AnimatedSprite#animated sprite do player
@@ -20,6 +23,8 @@ onready var camera = $Camera2D
 onready var aura_circle = $AuraCircle
 onready var dead_timer = $dead_time
 onready var shoot_sound = $LaserShot
+onready var susbat_spawner = get_parent().get_node("SpawnerSusbat/SpawnTimer")
+onready var escaravelho_spawner = get_parent().get_node("SpawnerEscaravelho/SpawnerTimer")
 
 #upgrades-----------------------------
 var upgrades_scene = false
@@ -321,8 +326,12 @@ func update_levels():
 			upgrades_scene = true
 			get_tree().paused = true
 			upgrades_ui.modulate.a = 1.0
-			get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time = clamp(get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time / 1.35, 0.1, 2)
-		print(get_parent().get_node("SpawnerSusbat/SpawnTimer").wait_time)
+			susbat_spawner.wait_time = clamp(susbat_spawner.wait_time / SUSBAT_SPAWN_FACTOR, 0.1, 3)
+			if overall_level() == LVL_TO_SPAWN_ESC:
+				escaravelho_spawner.start()
+				print("Escaravelho Spawner Start")
+			if overall_level() > LVL_TO_SPAWN_ESC: escaravelho_spawner.wait_time = clamp(escaravelho_spawner.wait_time / ESC_SPAWN_FACTOR, 0.1, 3)
+			
 
 func _on_Aura_button_down():
 	if upgrades_scene:
