@@ -1,6 +1,7 @@
 extends KinematicBody2D
 onready var sprite = $AnimatedSprite
 onready var line = $Line2D
+onready var player = get_parent().get_node("Player")
 #########
 var vel = Vector2.ZERO
 var life = 2
@@ -8,7 +9,7 @@ var count = 0
 export var speed = 100
 onready var _current_speed = speed
 var exp_value = 15
-var life_chance = 0.05
+var life_chance = 0.1
 var rand = RandomNumberGenerator.new()
 ########################
 var path: Array = []
@@ -47,22 +48,26 @@ func knockout():
 	_current_speed = -speed
 	$knock.start(0)
 
+
+
 func get_hurt(amount):
 	life -= amount
+	print(life)
 	if life <= 1:
 		modulate = Color.red
-	if (life <= 0):
-		var xpdrop = get_parent().XP_DROP_SCENE.instance()
-		xpdrop.global_position = global_position
-		xpdrop.exp_value = exp_value
-		get_parent().call_deferred("add_child", xpdrop)
+	if life <= 0:
+		if player.overall_level() != player.max_overall_level:
+			var xpdrop = get_parent().XP_DROP_SCENE.instance()
+			xpdrop.global_position = global_position
+			xpdrop.exp_value = exp_value
+			get_parent().call_deferred("add_child", xpdrop)
+
 		rand.randomize()
 		var r = rand.randf_range(0, 1)
-		if r < life_chance:
+		if r < life_chance and player.current_life != player.max_life:
 			var lifedrop = get_parent().LIFE_DROP_SCENE.instance()
 			lifedrop.global_position = global_position
 			get_parent().call_deferred("add_child", lifedrop)
-		
 		die()
 
 func _on_knock_timeout():
