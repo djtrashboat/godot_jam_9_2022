@@ -18,4 +18,8 @@ func _process(delta):
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
 		body.current_xp += exp_value
-		queue_free()
+		$beep.play()
+
+
+func _on_beep_finished():
+	queue_free()

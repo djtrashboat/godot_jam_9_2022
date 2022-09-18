@@ -2,11 +2,13 @@ extends KinematicBody2D
 
 const TIRO = preload("res://scenes/Tiro.tscn")
 const LIFE = preload("res://scenes/LifeScene.tscn")
+const END_GAME = preload("res://scenes/EndGameDrop.tscn")
 const MAXLIFE = 10
 const SUSBAT_SPAWN_FACTOR = 1.35
 const LVL_TO_SPAWN_ESC = 4
 const ESC_SPAWN_FACTOR = 1.1
 
+onready var UPGRADES_BASE = [$Upgrades/Aura, $Upgrades/DMG, $Upgrades/Pierce, $Upgrades/FireRate, $Upgrades/Front, $Upgrades/Back]
 onready var spawner_de_tiro = $braco/TiroSpawner
 onready var sprite = $AnimatedSprite#animated sprite do player
 onready var atk_cd = $atk_cd#timer de cooldown entre tiros
@@ -25,7 +27,11 @@ onready var dead_timer = $dead_time
 onready var shoot_sound = $LaserShot
 onready var susbat_spawner = get_parent().get_node("SpawnerSusbat/SpawnTimer")
 onready var escaravelho_spawner = get_parent().get_node("SpawnerEscaravelho/SpawnerTimer")
+var rand = RandomNumberGenerator.new()
 
+onready var upgrades_current:Array = UPGRADES_BASE.duplicate()
+var upgrades_show:Array = []
+var end_game_dropped = false
 #upgrades-----------------------------
 var upgrades_scene = false
 
@@ -89,6 +95,7 @@ func _ready():
 	died.position = Vector2.ZERO        #center
 	upgrades_ui.position = Vector2.ZERO #center
 	lifes_instances.push_back(life_base_node)
+	
 	for i in range(len(lifes_instances), max_life):
 		var life_ins = LIFE.instance()
 		life_ins.position.x = lifes_instances[i - 1].position.x + 35
@@ -107,6 +114,7 @@ func _ready():
 	print_player_status()
 
 func _process(delta):
+	#current_xp += 50
 	animate()
 	if is_invincible and current_life > 0:
 		sprite.modulate.a = 0.4
@@ -313,8 +321,14 @@ func aura_hurt(dmg):
 func update_levels():
 	if overall_level() == max_overall_level:
 		current_xp = calc_xp_next_level(max_overall_level)
+		if not end_game_dropped:
+			get_parent().add_child(END_GAME.instance())
+			end_game_dropped = not end_game_dropped
 		
 	elif current_xp >= xp_next_level and overall_level() < max_overall_level:
+		var mi = get_parent().music_index
+		get_parent().musicas[mi].volume_db = -100
+		$Upgrade.play()
 		current_xp = current_xp - xp_next_level
 		xp_bar.value = current_xp
 		xp_next_level = calc_xp_next_level(overall_level() + 1)
@@ -408,7 +422,7 @@ func overall_level():
 
 func _on_Reset_button_down():
 	if current_life <= 0:
-		get_tree().reload_current_scene()
+		get_tree().change_scene("res://scenes/World.tscn")
 		get_tree().paused = false
 
 func _on_Quit_button_down():
@@ -424,4 +438,8 @@ func _on_dead_time_timeout():
 func update_life_sprite():
 	current_life = clamp(current_life, 0, max_life)
 	lifes_instances[current_life - 1].modulate.a = 1.0
-	
+
+
+func _on_Upgrade_finished():
+	var mi = get_parent().music_index
+	get_parent().musicas[mi].volume_db = -10
