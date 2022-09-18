@@ -1,7 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="StreamTexture" id=1]
-load_path = "res://.import/life.png-a236955684aca7ef9596d15a25d28fa1.stex"
 
 [node name="UIPlayer" type="Control"]
 margin_right = 40.0

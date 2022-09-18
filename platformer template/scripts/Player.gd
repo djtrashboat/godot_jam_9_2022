@@ -7,6 +7,7 @@ const SUSBAT_SPAWN_FACTOR = 1.35
 const LVL_TO_SPAWN_ESC = 4
 const ESC_SPAWN_FACTOR = 1.1
 
+onready var UPGRADES_BASE = [$Upgrades/Aura, $Upgrades/DMG, $Upgrades/Pierce, $Upgrades/FireRate, $Upgrades/Front, $Upgrades/Back]
 onready var spawner_de_tiro = $braco/TiroSpawner
 onready var sprite = $AnimatedSprite#animated sprite do player
 onready var atk_cd = $atk_cd#timer de cooldown entre tiros
@@ -25,7 +26,10 @@ onready var dead_timer = $dead_time
 onready var shoot_sound = $LaserShot
 onready var susbat_spawner = get_parent().get_node("SpawnerSusbat/SpawnTimer")
 onready var escaravelho_spawner = get_parent().get_node("SpawnerEscaravelho/SpawnerTimer")
+var rand = RandomNumberGenerator.new()
 
+onready var upgrades_current:Array = UPGRADES_BASE.duplicate()
+var upgrades_show:Array = []
 #upgrades-----------------------------
 var upgrades_scene = false
 
@@ -322,6 +326,11 @@ func update_levels():
 		xp_bar.value = current_xp
 		print_player_status()
 		if overall_level() < max_overall_level:
+			rand.randomize()
+			for i in range(3):
+				var index = rand.randi_range(0, len(upgrades_current) - 1)
+				upgrades_show.push_back(upgrades_current[index])
+				upgrades_current.pop_at(index)
 			upgrades_ui.visible = true
 			upgrades_scene = true
 			get_tree().paused = true
