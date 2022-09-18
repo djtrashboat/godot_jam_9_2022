@@ -44,4 +44,8 @@ shape = SubResource( 5 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 6 )
 
+[node name="LifeTime" type="Timer" parent="."]
+wait_time = 30.0
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="timeout" from="LifeTime" to="." method="_on_LifeTime_timeout"]

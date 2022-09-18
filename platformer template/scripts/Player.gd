@@ -3,7 +3,6 @@ extends KinematicBody2D
 const TIRO = preload("res://scenes/Tiro.tscn")
 const LIFE = preload("res://scenes/LifeScene.tscn")
 const END_GAME = preload("res://scenes/EndGameDrop.tscn")
-const MAXLIFE = 10
 const SUSBAT_SPAWN_FACTOR = 1.35
 const LVL_TO_SPAWN_ESC = 4
 const ESC_SPAWN_FACTOR = 1.1

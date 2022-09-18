@@ -72,9 +72,9 @@ one_shot = true
 autostart = true
 
 [node name="hitbox" type="Area2D" parent="."]
-monitoring = false
 collision_layer = 16
 collision_mask = 0
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
 position = Vector2( -0.5, -0.5 )
