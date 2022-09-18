@@ -13,6 +13,7 @@ func _process(delta):
 	look_at(get_parent().global_player_pos)
 
 func knockout():
+	#queue_free()
 	pass
 
 func get_hurt(dmg: int):
@@ -46,6 +47,9 @@ func shoot():
 func _on_TimerAttack_timeout():
 	shoot()
 
-
 func _on_REM_ERRORS_timeout():
 	sprite.frame = 0
+
+
+func _on_LifeTime_timeout():
+	queue_free()

@@ -3,10 +3,10 @@ extends KinematicBody2D
 const TIRO = preload("res://scenes/Tiro.tscn")
 const LIFE = preload("res://scenes/LifeScene.tscn")
 const END_GAME = preload("res://scenes/EndGameDrop.tscn")
-const SUSBAT_SPAWN_FACTOR = 1.35
+const SUSBAT_SPAWN_FACTOR = 1.2
 const LVL_TO_SPAWN_ESC = 4
 const ESC_SPAWN_FACTOR = 1.1
-const LVL_TO_SPAWN_GHOST = 4
+const LVL_TO_SPAWN_GHOST = 5
 const GHOST_SPAWN_FACTOR = 1.1
 
 onready var UPGRADES_BASE = [$Upgrades/Aura, $Upgrades/DMG, $Upgrades/Pierce, $Upgrades/FireRate, $Upgrades/Front, $Upgrades/Back]

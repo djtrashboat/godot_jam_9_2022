@@ -12,10 +12,10 @@ z_index = -1
 collision_layer = 4
 collision_mask = 0
 script = ExtResource( 2 )
-hp = 1
 
 [node name="HurtBox" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1.57668, -0.10511 )
+collision_mask = 9
 
 [node name="CollisionShape2D" parent="HurtBox" index="0"]
 position = Vector2( 9.5, 0 )
@@ -36,14 +36,18 @@ wait_time = 0.1
 one_shot = true
 
 [node name="TimerAttack" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 2.0
 autostart = true
 
 [node name="REM_ERRORS" type="Timer" parent="."]
 wait_time = 0.08
 
+[node name="LifeTime" type="Timer" parent="."]
+wait_time = 30.0
+
 [connection signal="timeout" from="TimerModulate" to="." method="_on_TimerModulate_timeout"]
 [connection signal="timeout" from="TimerAttack" to="." method="_on_TimerAttack_timeout"]
 [connection signal="timeout" from="REM_ERRORS" to="." method="_on_REM_ERRORS_timeout"]
+[connection signal="timeout" from="LifeTime" to="." method="_on_LifeTime_timeout"]
 
 [editable path="HurtBox"]

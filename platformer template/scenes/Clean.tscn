@@ -35,6 +35,7 @@ __meta__ = {
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
 stream = ExtResource( 3 )
+volume_db = 0.4
 
 [node name="FadeOut" type="Tween" parent="."]
 pause_mode = 2
