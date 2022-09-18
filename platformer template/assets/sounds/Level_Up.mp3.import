@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Level_Up.mp3-6a77a6be752b1d4127a2e9e32fbd4192.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/Level_Up.mp3"
+dest_files=[ "res://.import/Level_Up.mp3-6a77a6be752b1d4127a2e9e32fbd4192.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

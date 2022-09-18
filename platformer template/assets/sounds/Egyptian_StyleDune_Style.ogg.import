@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Egyptian_StyleDune_Style.ogg-6d836a8df424a732a56271c884f60282.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/Egyptian_StyleDune_Style.ogg"
+dest_files=[ "res://.import/Egyptian_StyleDune_Style.ogg-6d836a8df424a732a56271c884f60282.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
