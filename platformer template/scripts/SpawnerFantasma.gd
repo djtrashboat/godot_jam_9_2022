@@ -6,8 +6,8 @@ func _ready():
 var rand = RandomNumberGenerator.new()
 
 func _on_SpawnerTimer_timeout():
+	print("spawner timeout")
 	var p = get_parent().global_player_pos
-	var screen = get_viewport().get_visible_rect().size / 2
+	var screen = get_viewport().get_visible_rect().size
 	var pos = Vector2(rand.randf_range(p.x - screen.x, p.x + screen.x), rand.randf_range(p.y - 200, p.y - screen.y))
-	pos.y += 50
-	get_parent().spawn_escaravelho(pos)
+	get_parent().spawn_fantasma(pos)

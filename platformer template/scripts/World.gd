@@ -2,6 +2,7 @@ extends Node2D
 var global_player_pos = Vector2.ZERO
 const SUSBAT_SCENE = preload("res://scenes/Susbat.tscn")
 const ESCARAVELHO_SCENE = preload("res://scenes/Escaravelho.tscn")
+const FANTASMA_SCENE = preload("res://scenes/Fantasma.tscn")
 const XP_DROP_SCENE = preload("res://scenes/XPDrop.tscn")
 const LIFE_DROP_SCENE = preload("res://scenes/LifeDrop.tscn")
 const ENDGAME = preload("res://scenes/EndGame.tscn")
@@ -39,6 +40,11 @@ func spawn_susbat(pos):
 
 func spawn_escaravelho(pos):
 	var e = ESCARAVELHO_SCENE.instance()
+	e.position = pos
+	add_child(e)
+
+func spawn_fantasma(pos):
+	var e = FANTASMA_SCENE.instance()
 	e.position = pos
 	add_child(e)
 
