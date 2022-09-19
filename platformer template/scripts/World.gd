@@ -11,6 +11,7 @@ onready var tween_in = get_node("FadeIn")
 var gravity = 12
 onready var nav_2d: Navigation2D = $LevelNavigation
 
+onready var music_db = -30 + Autoload.music_volume
 onready var musicas:Array = [$musica2, $musica3]
 var current_music = null
 var ended = false
@@ -20,11 +21,11 @@ export var transition_duration = 1
 export var transition_type = 1
 
 func fade_out(stream_player):
-	tween_out.interpolate_property(stream_player, "volume_db", -30, -80, transition_duration, transition_type, Tween.EASE_IN, 0)
+	tween_out.interpolate_property(stream_player, "volume_db", music_db, -80, transition_duration, transition_type, Tween.EASE_IN, 0)
 	tween_out.start()
 
 func fade_in(stream_player):
-	tween_in.interpolate_property(stream_player, "volume_db", -80, -30, transition_duration, transition_type, Tween.EASE_IN, 0)
+	tween_in.interpolate_property(stream_player, "volume_db", -80, music_db, transition_duration, transition_type, Tween.EASE_IN, 0)
 	tween_in.start()
 
 func _ready():

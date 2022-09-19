@@ -326,7 +326,7 @@ texture = ExtResource( 15 )
 [node name="AuraCircle" type="AnimatedSprite" parent="."]
 scale = Vector2( 2, 2 )
 frames = SubResource( 29 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="XPBar" parent="." instance=ExtResource( 1 )]
@@ -349,9 +349,11 @@ stream = ExtResource( 18 )
 
 [node name="Meow1" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 22 )
+volume_db = -20.0
 
 [node name="Meow2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 23 )
+volume_db = -20.0
 
 [connection signal="animation_finished" from="braco/effect" to="." method="_on_effect_animation_finished"]
 [connection signal="timeout" from="atk_cd" to="." method="_on_atk_cd_timeout"]

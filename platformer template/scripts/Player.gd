@@ -33,6 +33,11 @@ onready var escaravelho_spawner = get_parent().get_node("SpawnerEscaravelho/Spaw
 onready var fantasma_spawner = get_parent().get_node("SpawnerFantasma/SpawnerTimer")
 var rand = RandomNumberGenerator.new()
 
+#sound volume----------------------------
+onready var meow_db = -20 + Autoload.sfx_volume
+onready var upgrade_db = -10 + Autoload.sfx_volume
+onready var laser_db = + Autoload.sfx_volume
+
 onready var upgrades_current:Array = UPGRADES_BASE.duplicate()
 var upgrades_show:Array = []
 var end_game_dropped = false
@@ -93,6 +98,7 @@ onready var gravity = get_parent().gravity
 
 func _ready():
 	rand.randomize()
+	sound_update()
 	aura_circle.visible = false
 	aura_circle.modulate.a = 0.5
 	upgrades_ui.visible = false
@@ -469,3 +475,9 @@ func update_life_sprite():
 func _on_Upgrade_finished():
 	var mi = get_parent().music_index
 	get_parent().musicas[mi].volume_db = -10
+
+func sound_update():
+	meow_sound1.volume_db = meow_db
+	meow_sound2.volume_db = meow_db
+	$Upgrade.volume_db = upgrade_db
+	$LaserShot.volume_db = laser_db

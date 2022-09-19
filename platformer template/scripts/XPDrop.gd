@@ -5,6 +5,9 @@ onready var area = $Area2D
 var velocity = Vector2.ZERO
 var exp_value = 15
 
+func _ready():
+	$beep.volume_db = Autoload.sfx_volume
+
 func _physics_process(delta):
 	velocity.y += gravity
 	move_and_slide(velocity, Vector2(0.0, -1.0))
