@@ -26,6 +26,8 @@ onready var camera = $Camera2D
 onready var aura_circle = $AuraCircle
 onready var dead_timer = $dead_time
 onready var shoot_sound = $LaserShot
+onready var meow_sound1 = $Meow1
+onready var meow_sound2 = $Meow2
 onready var susbat_spawner = get_parent().get_node("SpawnerSusbat/SpawnTimer")
 onready var escaravelho_spawner = get_parent().get_node("SpawnerEscaravelho/SpawnerTimer")
 onready var fantasma_spawner = get_parent().get_node("SpawnerFantasma/SpawnerTimer")
@@ -90,6 +92,7 @@ export var speed = Vector2(150,330)
 onready var gravity = get_parent().gravity
 
 func _ready():
+	rand.randomize()
 	aura_circle.visible = false
 	aura_circle.modulate.a = 0.5
 	upgrades_ui.visible = false
@@ -173,9 +176,9 @@ func calculate_velocity(direction: Vector2):
 		velocity.x = lerp(velocity.x, direction.x * speed.x, 0.6)#player controla o personagem normalmente com aceleração relativamente alta
 		velocity.y = gravity #para a velocidade vertical não ficar aumentando enquanto o player está no chão 
 
-func _draw():
-	if aura_level > 0:
-		draw_circle_arc(Vector2.ZERO, aura_radius, 0, 360, Color(0.0, 0.0, 1.0, 1.0))
+#func _draw():
+#	if aura_level > 0:
+#		draw_circle_arc(Vector2.ZERO, aura_radius, 0, 360, Color(0.0, 0.0, 1.0, 1.0))
 
 func animate():
 	var mouse_pos = get_global_mouse_position()
@@ -267,6 +270,11 @@ func get_hurt():
 	if not is_invincible:
 		invincible_cd.start()
 		current_life -= 1
+		var random_number = rand.randi()%2
+		if random_number == 1:
+			meow_sound1.play()
+		else:
+			meow_sound2.play()
 		for i in range(current_life, max_life):
 			lifes_instances[i].modulate.a = 0.4
 	if current_life <= 0 and dead_timer.is_stopped():
@@ -341,7 +349,7 @@ func update_levels():
 			upgrades_ui.visible = true
 			upgrades_scene = true
 			get_tree().paused = true
-			upgrades_ui.modulate.a = 1.0
+			#upgrades_ui.modulate.a = 1.0
 			susbat_spawner.wait_time = clamp(susbat_spawner.wait_time / SUSBAT_SPAWN_FACTOR, 0.1, 3)
 			if overall_level() == LVL_TO_SPAWN_ESC:
 				escaravelho_spawner.start()
@@ -362,6 +370,8 @@ func _on_Aura_button_down():
 			upgrades_scene = false
 			get_tree().paused = false
 			print_player_status()
+			if aura_level >= max_aura_level:
+				UPGRADES_BASE[0].modulate.a = 0.3
 
 func _on_DMG_button_down():
 	if upgrades_scene:
@@ -371,6 +381,8 @@ func _on_DMG_button_down():
 			upgrades_scene = false
 			get_tree().paused = false
 			print_player_status()
+			if shoot_dmg_level >= max_shoot_dmg_level:
+				UPGRADES_BASE[1].modulate.a = 0.3
 
 func _on_Pierce_button_down():
 	if upgrades_scene:
@@ -380,6 +392,8 @@ func _on_Pierce_button_down():
 			upgrades_scene = false
 			get_tree().paused = false
 			print_player_status()
+			if shoot_pierce_level >= max_shoot_pierce_level:
+				UPGRADES_BASE[2].modulate.a = 0.3
 
 func _on_FireRate_button_down():
 	if upgrades_scene:
@@ -389,6 +403,8 @@ func _on_FireRate_button_down():
 			upgrades_scene = false
 			get_tree().paused = false
 			print_player_status()
+			if fire_rate_level >= max_fire_rate_level:
+				UPGRADES_BASE[3].modulate.a = 0.3
 
 func _on_Front_button_down():
 	if upgrades_scene:
@@ -398,6 +414,8 @@ func _on_Front_button_down():
 			upgrades_scene = false
 			get_tree().paused = false
 			print_player_status()
+			if shoot_front_level >= max_shoot_front_level:
+				UPGRADES_BASE[4].modulate.a = 0.3
 
 func _on_Back_button_down():
 	if upgrades_scene:
@@ -407,6 +425,8 @@ func _on_Back_button_down():
 			upgrades_scene = false
 			get_tree().paused = false
 			print_player_status()
+			if shoot_back_level >= max_shoot_back_level:
+				UPGRADES_BASE[5].modulate.a = 0.3
 
 func print_player_status():
 	print("-----------------------------------------------------")

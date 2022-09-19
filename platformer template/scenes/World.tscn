@@ -67,7 +67,6 @@ z_index = 1
 
 [node name="Mouse_Cursor" parent="." instance=ExtResource( 3 )]
 pause_mode = 2
-z_index = 3
 
 [node name="SpawnerSusbat" type="Position2D" parent="."]
 script = ExtResource( 6 )

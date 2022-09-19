@@ -16,7 +16,7 @@ enum {
 #########
 var vel = Vector2.ZERO
 var state = NORMAL
-var life = 3
+var life = 5
 var count = 0
 var speed = 100
 
