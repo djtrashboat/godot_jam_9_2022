@@ -4,7 +4,7 @@ onready var sprite = $Sprite
 onready var timer_knock = $TimerKnock
 onready var timer_ghost_mode = $TimerGhostMode
 onready var hurt_box_body = $HurtBox/CollisionShape2D
-var exp_value = 35
+var exp_value = 45
 
 
 enum {

@@ -11,7 +11,7 @@ var life = 2
 var count = 0
 export var speed = 100
 onready var _current_speed = speed
-var exp_value = 15
+var exp_value = 25
 var life_chance = 0.1
 var rand = RandomNumberGenerator.new()
 ########################

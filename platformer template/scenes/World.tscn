@@ -72,7 +72,7 @@ pause_mode = 2
 script = ExtResource( 6 )
 
 [node name="SpawnTimer" type="Timer" parent="SpawnerSusbat"]
-wait_time = 4.0
+wait_time = 4.4
 autostart = true
 
 [node name="Pause" parent="." instance=ExtResource( 9 )]
@@ -84,13 +84,13 @@ script = ExtResource( 8 )
 script = ExtResource( 11 )
 
 [node name="SpawnerTimer" type="Timer" parent="SpawnerEscaravelho"]
-wait_time = 9.0
+wait_time = 11.0
 
 [node name="SpawnerFantasma" type="Position2D" parent="."]
 script = ExtResource( 13 )
 
 [node name="SpawnerTimer" type="Timer" parent="SpawnerFantasma"]
-wait_time = 13.0
+wait_time = 14.0
 
 [node name="FadeIn" type="Tween" parent="."]
 pause_mode = 2

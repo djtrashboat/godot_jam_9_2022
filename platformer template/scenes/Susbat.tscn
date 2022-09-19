@@ -64,6 +64,9 @@ wait_time = 0.15
 wait_time = 0.5
 autostart = true
 
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+process_parent = true
+
 [connection signal="timeout" from="PathTimer" to="." method="_on_PathTimer_timeout"]
 [connection signal="timeout" from="knock" to="." method="_on_knock_timeout"]
 [connection signal="timeout" from="return_to_base_mov_timer" to="." method="_on_return_to_base_mov_timer_timeout"]

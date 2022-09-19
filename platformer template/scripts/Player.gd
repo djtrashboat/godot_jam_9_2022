@@ -6,7 +6,7 @@ const END_GAME = preload("res://scenes/EndGameDrop.tscn")
 const SUSBAT_SPAWN_FACTOR = 1.2
 const LVL_TO_SPAWN_ESC = 4
 const ESC_SPAWN_FACTOR = 1.1
-const LVL_TO_SPAWN_GHOST = 5
+const LVL_TO_SPAWN_GHOST = 6
 const GHOST_SPAWN_FACTOR = 1.1
 
 onready var UPGRADES_BASE = [$Upgrades/Aura, $Upgrades/DMG, $Upgrades/Pierce, $Upgrades/FireRate, $Upgrades/Front, $Upgrades/Back]
@@ -364,15 +364,15 @@ func update_levels():
 			upgrades_scene = true
 			get_tree().paused = true
 			#upgrades_ui.modulate.a = 1.0
-			susbat_spawner.wait_time = clamp(susbat_spawner.wait_time / SUSBAT_SPAWN_FACTOR, 0.1, 3)
+			susbat_spawner.wait_time = clamp(susbat_spawner.wait_time / SUSBAT_SPAWN_FACTOR, 0.2, 3)
 			if overall_level() == LVL_TO_SPAWN_ESC:
 				escaravelho_spawner.start()
 				print("Escaravelho Spawner Start")
-			if overall_level() > LVL_TO_SPAWN_ESC: escaravelho_spawner.wait_time = clamp(escaravelho_spawner.wait_time / ESC_SPAWN_FACTOR, 0.1, 3)
+			if overall_level() > LVL_TO_SPAWN_ESC: escaravelho_spawner.wait_time = clamp(escaravelho_spawner.wait_time / ESC_SPAWN_FACTOR, 0.2, 3)
 			if overall_level() == LVL_TO_SPAWN_GHOST:
 				fantasma_spawner.start()
 				print("Ghost Spawner Start")
-			if overall_level() > LVL_TO_SPAWN_GHOST: fantasma_spawner.wait_time = clamp(fantasma_spawner.wait_time / GHOST_SPAWN_FACTOR, 0.1, 3)
+			if overall_level() > LVL_TO_SPAWN_GHOST: fantasma_spawner.wait_time = clamp(fantasma_spawner.wait_time / GHOST_SPAWN_FACTOR, 0.2, 3)
 			
 
 func _on_Aura_button_down():

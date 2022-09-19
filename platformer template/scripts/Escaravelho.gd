@@ -5,7 +5,7 @@ const TIRO = preload("res://scenes/TiroEscaravelho.tscn")
 onready var timer_modulate = $TimerModulate
 onready var spawner_de_tiro = $Sprite/TiroSpawn
 onready var sprite = $Sprite
-var exp_value = 25
+var exp_value = 35
 
 export var hp = 4
 

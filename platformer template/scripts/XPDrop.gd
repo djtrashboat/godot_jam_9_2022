@@ -12,8 +12,8 @@ func _physics_process(delta):
 	velocity.y += gravity
 	move_and_slide(velocity, Vector2(0.0, -1.0))
 
-func _process(delta):
-	$AnimatedSprite.modulate.a = $LifeXP.time_left / $LifeXP.wait_time
+#func _process(delta):
+#	$AnimatedSprite.modulate.a = $LifeXP.time_left / $LifeXP.wait_time
 
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
@@ -25,3 +25,7 @@ func _on_beep_finished():
 	
 func _on_LifeXP_timeout():
 	queue_free()
+
+
+func _on_ModulateTick_timeout():
+	$AnimatedSprite.modulate.a = $LifeXP.time_left / $LifeXP.wait_time

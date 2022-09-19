@@ -57,6 +57,10 @@ wait_time = 5.0
 one_shot = true
 autostart = true
 
+[node name="ModulateTick" type="Timer" parent="."]
+autostart = true
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="finished" from="beep" to="." method="_on_beep_finished"]
 [connection signal="timeout" from="LifeXP" to="." method="_on_LifeXP_timeout"]
+[connection signal="timeout" from="ModulateTick" to="." method="_on_ModulateTick_timeout"]
