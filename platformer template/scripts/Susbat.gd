@@ -1,9 +1,12 @@
 extends KinematicBody2D
 onready var sprite = $AnimatedSprite
 onready var line = $Line2D
+onready var timer_path = $PathTimer
+onready var base_mov_timer = $return_to_base_mov_timer
 onready var player = get_parent().get_node("Player")
 #########
 var vel = Vector2.ZERO
+var use_base_mov = true
 var life = 2
 var count = 0
 export var speed = 100
@@ -22,10 +25,13 @@ func _ready():
 		levelNavigation = tree.get_nodes_in_group("LevelNavigation")[0]
 
 func _physics_process(delta):
-	line.global_position = Vector2.ZERO
-	if levelNavigation:
+	#line.global_position = Vector2.ZERO
+	if levelNavigation and not use_base_mov:
 		navigate()
-	move_and_slide(vel * _current_speed)
+	elif use_base_mov:
+		vel = -(position - get_parent().global_player_pos)
+		vel = vel.normalized()
+	move_and_slide(vel * _current_speed, Vector2(0.0, -1.0))
 
 func navigate():
 	if path.size() > 1:
@@ -36,10 +42,10 @@ func navigate():
 func generate_path():
 	if levelNavigation!=null:
 		path = levelNavigation.get_simple_path(global_position, get_parent().global_player_pos, false)
-		line.points = path
+		#line.points = path
 
 func _on_PathTimer_timeout():
-	if levelNavigation:
+	if levelNavigation and not use_base_mov:
 		generate_path()
 
 #######
@@ -47,8 +53,6 @@ func _on_PathTimer_timeout():
 func knockout():
 	_current_speed = -speed
 	$knock.start(0)
-
-
 
 func get_hurt(amount):
 	life -= amount
@@ -72,7 +76,11 @@ func get_hurt(amount):
 
 func _on_knock_timeout():
 	_current_speed = speed
-	generate_path()
+	if levelNavigation and not use_base_mov:
+		generate_path()
 
 func die():
 	queue_free()
+
+func _on_return_to_base_mov_timer_timeout():
+	use_base_mov = !is_on_floor() and !is_on_ceiling() and !is_on_wall()
