@@ -37,6 +37,9 @@ one_shot = true
 wait_time = 2.0
 one_shot = true
 
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+process_parent = true
+
 [connection signal="timeout" from="TimerKnock" to="." method="_on_TimerKnock_timeout"]
 [connection signal="timeout" from="TimerGhostMode" to="." method="_on_TimerGhostMode_timeout"]
 

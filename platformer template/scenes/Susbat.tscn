@@ -37,7 +37,7 @@ script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 4 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -63,6 +63,9 @@ wait_time = 0.15
 [node name="return_to_base_mov_timer" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+process_parent = true
 
 [connection signal="timeout" from="PathTimer" to="." method="_on_PathTimer_timeout"]
 [connection signal="timeout" from="knock" to="." method="_on_knock_timeout"]
