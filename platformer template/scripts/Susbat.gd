@@ -22,7 +22,7 @@ func _ready():
 		levelNavigation = tree.get_nodes_in_group("LevelNavigation")[0]
 
 func _physics_process(delta):
-	#line.global_position = Vector2.ZERO
+	line.global_position = Vector2.ZERO
 	if levelNavigation:
 		navigate()
 	move_and_slide(vel * _current_speed)
@@ -36,7 +36,7 @@ func navigate():
 func generate_path():
 	if levelNavigation!=null:
 		path = levelNavigation.get_simple_path(global_position, get_parent().global_player_pos, false)
-		#line.points = path
+		line.points = path
 
 func _on_PathTimer_timeout():
 	if levelNavigation:
