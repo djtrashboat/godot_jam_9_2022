@@ -37,7 +37,7 @@ script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 4 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -60,7 +60,12 @@ width = 2.0
 [node name="knock" type="Timer" parent="."]
 wait_time = 0.15
 
+[node name="return_to_base_mov_timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
 [connection signal="timeout" from="PathTimer" to="." method="_on_PathTimer_timeout"]
 [connection signal="timeout" from="knock" to="." method="_on_knock_timeout"]
+[connection signal="timeout" from="return_to_base_mov_timer" to="." method="_on_return_to_base_mov_timer_timeout"]
 
 [editable path="HurtBox"]

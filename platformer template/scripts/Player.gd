@@ -125,7 +125,9 @@ func _ready():
 	print_player_status()
 
 func _process(delta):
-#	current_xp += 50
+#	if overall_level() < max_overall_level - 1:
+#		current_xp += 50
+	
 	animate()
 	if is_invincible and current_life > 0:
 		sprite.modulate.a = 0.4
