@@ -326,7 +326,7 @@ texture = ExtResource( 15 )
 [node name="AuraCircle" type="AnimatedSprite" parent="."]
 scale = Vector2( 2, 2 )
 frames = SubResource( 29 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="XPBar" parent="." instance=ExtResource( 1 )]

@@ -125,7 +125,7 @@ func _ready():
 	print_player_status()
 
 func _process(delta):
-	#current_xp += 50
+#	current_xp += 50
 	animate()
 	if is_invincible and current_life > 0:
 		sprite.modulate.a = 0.4
@@ -337,6 +337,12 @@ func aura_hurt(dmg):
 func update_levels():
 	if overall_level() == max_overall_level:
 		current_xp = calc_xp_next_level(max_overall_level)
+		susbat_spawner.stop()
+		escaravelho_spawner.stop()
+		fantasma_spawner.stop()
+#		susbat_spawner.wait_time =500
+#		escaravelho_spawner.wait_time =500
+#		fantasma_spawner.wait_time = 500 
 		if not end_game_dropped:
 			get_parent().add_child(END_GAME.instance())
 			end_game_dropped = not end_game_dropped
@@ -474,7 +480,7 @@ func update_life_sprite():
 
 func _on_Upgrade_finished():
 	var mi = get_parent().music_index
-	get_parent().musicas[mi].volume_db = -10
+	get_parent().musicas[mi].volume_db = get_parent().music_db
 
 func sound_update():
 	meow_sound1.volume_db = meow_db
