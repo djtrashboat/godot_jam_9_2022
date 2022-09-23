@@ -69,11 +69,20 @@ z_index = 1
 pause_mode = 2
 
 [node name="SpawnerSusbat" type="Position2D" parent="."]
+position = Vector2( 250, -150 )
 script = ExtResource( 6 )
 
 [node name="SpawnTimer" type="Timer" parent="SpawnerSusbat"]
-wait_time = 4.4
+wait_time = 3.0
 autostart = true
+
+[node name="SpawnerSusserBat" type="Position2D" parent="."]
+position = Vector2( 250, -150 )
+script = ExtResource( 6 )
+variant = true
+
+[node name="SpawnTimer" type="Timer" parent="SpawnerSusserBat"]
+wait_time = 10.0
 
 [node name="Pause" parent="." instance=ExtResource( 9 )]
 pause_mode = 2
@@ -81,16 +90,17 @@ z_index = 10
 script = ExtResource( 8 )
 
 [node name="SpawnerEscaravelho" type="Position2D" parent="."]
+position = Vector2( -99.8934, -123.678 )
 script = ExtResource( 11 )
 
 [node name="SpawnerTimer" type="Timer" parent="SpawnerEscaravelho"]
-wait_time = 11.0
+wait_time = 9.0
 
 [node name="SpawnerFantasma" type="Position2D" parent="."]
 script = ExtResource( 13 )
 
 [node name="SpawnerTimer" type="Timer" parent="SpawnerFantasma"]
-wait_time = 14.0
+wait_time = 9.0
 
 [node name="FadeIn" type="Tween" parent="."]
 pause_mode = 2
@@ -109,6 +119,7 @@ stream = ExtResource( 4 )
 volume_db = 0.4
 
 [connection signal="timeout" from="SpawnerSusbat/SpawnTimer" to="SpawnerSusbat" method="_on_SpawnTimer_timeout"]
+[connection signal="timeout" from="SpawnerSusserBat/SpawnTimer" to="SpawnerSusserBat" method="_on_SpawnTimer_timeout"]
 [connection signal="timeout" from="SpawnerEscaravelho/SpawnerTimer" to="SpawnerEscaravelho" method="_on_SpawnerTimer_timeout"]
 [connection signal="timeout" from="SpawnerFantasma/SpawnerTimer" to="SpawnerFantasma" method="_on_SpawnerTimer_timeout"]
 [connection signal="tween_started" from="FadeIn" to="." method="_on_FadeIn_tween_started"]

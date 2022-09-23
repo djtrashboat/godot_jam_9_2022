@@ -7,12 +7,12 @@ onready var player = get_parent().get_node("Player")
 #########
 var vel = Vector2.ZERO
 var use_base_mov = true
-var life = 2
-var count = 0
+export var life = 2
 export var speed = 100
 onready var _current_speed = speed
-var exp_value = 25
-var life_chance = 0.1
+export var exp_value = 25
+#var exp_value = 25
+export var life_chance = 0.1
 var rand = RandomNumberGenerator.new()
 ########################
 var path: Array = []
@@ -57,7 +57,7 @@ func knockout():
 func get_hurt(amount):
 	life -= amount
 	print(life)
-	if life <= 1:
+	if life <= 2:
 		modulate = Color.red
 	if life <= 0:
 		if player.overall_level() != player.max_overall_level:

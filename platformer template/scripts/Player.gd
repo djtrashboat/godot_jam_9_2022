@@ -3,11 +3,13 @@ extends KinematicBody2D
 const TIRO = preload("res://scenes/Tiro.tscn")
 const LIFE = preload("res://scenes/LifeScene.tscn")
 const END_GAME = preload("res://scenes/EndGameDrop.tscn")
-const SUSBAT_SPAWN_FACTOR = 1.2
-const LVL_TO_SPAWN_ESC = 4
+var SUSBAT_SPAWN_FACTOR = 1.3
+const LVL_TO_SPAWN_ESC = 8
 const ESC_SPAWN_FACTOR = 1.1
-const LVL_TO_SPAWN_GHOST = 6
-const GHOST_SPAWN_FACTOR = 1.1
+const LVL_TO_SPAWN_GHOST = 12
+const GHOST_SPAWN_FACTOR = 1.2
+const LVL_TO_SPAWN_SUSSER = 4
+const SUSSER_SPAWN_FACTOR = 1.15
 
 onready var UPGRADES_BASE = [$Upgrades/Aura, $Upgrades/DMG, $Upgrades/Pierce, $Upgrades/FireRate, $Upgrades/Front, $Upgrades/Back]
 onready var spawner_de_tiro = $braco/TiroSpawner
@@ -28,9 +30,11 @@ onready var dead_timer = $dead_time
 onready var shoot_sound = $LaserShot
 onready var meow_sound1 = $Meow1
 onready var meow_sound2 = $Meow2
+onready var score_label = $Label
 onready var susbat_spawner = get_parent().get_node("SpawnerSusbat/SpawnTimer")
 onready var escaravelho_spawner = get_parent().get_node("SpawnerEscaravelho/SpawnerTimer")
 onready var fantasma_spawner = get_parent().get_node("SpawnerFantasma/SpawnerTimer")
+onready var susser_spawner = get_parent().get_node("SpawnerSusserBat/SpawnTimer")
 var rand = RandomNumberGenerator.new()
 
 #sound volume----------------------------
@@ -44,7 +48,10 @@ var end_game_dropped = false
 #upgrades-----------------------------
 var upgrades_scene = false
 
-var max_aura_level = 5
+onready var score = 0
+
+#var max_aura_level = 5
+var max_aura_level = 3
 var aura_level = 0
 var aura_can_hurt = true
 
@@ -58,11 +65,13 @@ var aura_timer_time = 1.0 / aura_ticks_per_sec_base
 
 
 var max_fire_rate_level = 5
+#var max_fire_rate_level = 4
 var fire_rate_level = 1
 onready var atk_cd_base = atk_cd.wait_time
 
 
 var max_shoot_front_level = 5
+#var max_shoot_front_level = 4
 var shoot_front_level = 1
 var dtheta_front = 0
 
@@ -73,9 +82,11 @@ var dtheta_back = 0
 var k_fov_shoot = PI / 4
 
 var max_shoot_pierce_level = 5
+#var max_shoot_pierce_level = 4
 var shoot_pierce_level = 0
 
 var max_shoot_dmg_level = 5
+#var max_shoot_dmg_level = 4
 var shoot_dmg_level = 1
 
 var current_xp = 0
@@ -371,9 +382,11 @@ func update_levels():
 			if overall_level() > LVL_TO_SPAWN_ESC: escaravelho_spawner.wait_time = clamp(escaravelho_spawner.wait_time / ESC_SPAWN_FACTOR, 0.2, 3)
 			if overall_level() == LVL_TO_SPAWN_GHOST:
 				fantasma_spawner.start()
-				print("Ghost Spawner Start")
+				SUSBAT_SPAWN_FACTOR = 0.7
 			if overall_level() > LVL_TO_SPAWN_GHOST: fantasma_spawner.wait_time = clamp(fantasma_spawner.wait_time / GHOST_SPAWN_FACTOR, 0.2, 3)
-			
+			if overall_level() == LVL_TO_SPAWN_SUSSER:
+				susser_spawner.start()
+			if overall_level() > LVL_TO_SPAWN_SUSSER: susser_spawner.wait_time = clamp(susser_spawner.wait_time / SUSSER_SPAWN_FACTOR, 0.2, 3)
 
 func _on_Aura_button_down():
 	if upgrades_scene:
@@ -489,3 +502,6 @@ func sound_update():
 	meow_sound2.volume_db = meow_db
 	$Upgrade.volume_db = upgrade_db
 	$LaserShot.volume_db = laser_db
+
+func score_update():
+	score_label.text = str(score)

@@ -6,7 +6,7 @@ var velocity = Vector2.ZERO
 var exp_value = 15
 
 func _ready():
-	$beep.volume_db = Autoload.sfx_volume
+	$beep.volume_db = -20 + Autoload.sfx_volume
 
 func _physics_process(delta):
 	velocity.y += gravity
@@ -18,6 +18,8 @@ func _physics_process(delta):
 func _on_Area2D_body_entered(body):
 	if body.name == "Player":
 		body.current_xp += exp_value
+		body.score += exp_value
+		body.score_update()
 		$beep.play()
 
 func _on_beep_finished():

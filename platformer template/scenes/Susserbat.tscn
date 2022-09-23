@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://assets/art/susbat.png" type="Texture" id=1]
+[ext_resource path="res://scripts/Susbat.gd" type="Script" id=2]
+[ext_resource path="res://scenes/HurtBoxTiro.tscn" type="PackedScene" id=3]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 5.52268
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 15.5, 6.5 )
+
+[node name="Susbat" type="KinematicBody2D"]
+scale = Vector2( 1.4, 1.4 )
+collision_layer = 4
+collision_mask = 5
+script = ExtResource( 2 )
+life = 5
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 4 )
+frame = 2
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 0.5, -0.5 )
+shape = SubResource( 5 )
+
+[node name="HurtBox" parent="." instance=ExtResource( 3 )]
+visible = false
+
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2( 0.5, -0.5 )
+shape = SubResource( 6 )
+
+[node name="PathTimer" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 2.0
+
+[node name="knock" type="Timer" parent="."]
+wait_time = 0.15
+
+[node name="return_to_base_mov_timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+visible = false
+process_parent = true
+
+[connection signal="timeout" from="PathTimer" to="." method="_on_PathTimer_timeout"]
+[connection signal="timeout" from="knock" to="." method="_on_knock_timeout"]
+[connection signal="timeout" from="return_to_base_mov_timer" to="." method="_on_return_to_base_mov_timer_timeout"]
+
+[editable path="HurtBox"]

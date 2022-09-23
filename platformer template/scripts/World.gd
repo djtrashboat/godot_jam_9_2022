@@ -1,6 +1,7 @@
 extends Node2D
 var global_player_pos = Vector2.ZERO
 const SUSBAT_SCENE = preload("res://scenes/Susbat.tscn")
+const SUSSERBAT_SCENE = preload("res://scenes/Susserbat.tscn")
 const ESCARAVELHO_SCENE = preload("res://scenes/Escaravelho.tscn")
 const FANTASMA_SCENE = preload("res://scenes/Fantasma.tscn")
 const XP_DROP_SCENE = preload("res://scenes/XPDrop.tscn")
@@ -10,12 +11,12 @@ onready var tween_out = get_node("FadeOut")
 onready var tween_in = get_node("FadeIn")
 var gravity = 12
 onready var nav_2d: Navigation2D = $LevelNavigation
-
 onready var music_db = -30 + Autoload.music_volume
 onready var musicas:Array = [$musica2, $musica3]
 var current_music = null
 var ended = false
 var music_index = 0
+onready var score = 0
 
 export var transition_duration = 1
 export var transition_type = 1
@@ -36,6 +37,11 @@ func _process(delta):
 
 func spawn_susbat(pos):
 	var e = SUSBAT_SCENE.instance()
+	e.position = pos
+	add_child(e)
+
+func spawn_susserbat(pos):
+	var e = SUSSERBAT_SCENE.instance()
 	e.position = pos
 	add_child(e)
 
