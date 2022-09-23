@@ -51,23 +51,23 @@ region = Rect2( 105, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 13 )
-region = Rect2( 35, 0, 35, 35 )
+region = Rect2( 0, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 13 )
-region = Rect2( 105, 0, 35, 35 )
+region = Rect2( 35, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 35, 35 )
+region = Rect2( 70, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 13 )
-region = Rect2( 35, 0, 35, 35 )
+region = Rect2( 105, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 13 )
-region = Rect2( 70, 0, 35, 35 )
+region = Rect2( 35, 0, 35, 35 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 13 )
@@ -105,20 +105,20 @@ animations = [ {
 "name": "KO1",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 7 ) ],
+"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
+"loop": true,
+"name": "run",
+"speed": 8.0
+}, {
+"frames": [ SubResource( 11 ) ],
 "loop": true,
 "name": "KO2",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 8 ) ],
+"frames": [ SubResource( 12 ) ],
 "loop": true,
 "name": "jump",
 "speed": 5.0
-}, {
-"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
-"loop": true,
-"name": "run",
-"speed": 8.0
 }, {
 "frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
 "loop": false,
@@ -239,7 +239,6 @@ autostart = true
 
 [node name="Upgrades" parent="." instance=ExtResource( 11 )]
 pause_mode = 2
-visible = false
 z_index = 71
 
 [node name="UI" parent="Upgrades" index="0"]
@@ -249,62 +248,83 @@ rotation = 1.5708
 scale = Vector2( 2.3, 2.3 )
 
 [node name="Aura" parent="Upgrades" index="1"]
-margin_left = -210.0
-margin_top = -80.0
-margin_right = -110.0
-margin_bottom = 20.0
+margin_left = -213.0
+margin_top = -113.0
+margin_right = -113.0
+margin_bottom = -13.0
 button_mask = 2
 
 [node name="DMG" parent="Upgrades" index="2"]
 margin_left = -215.0
-margin_top = 12.0
+margin_top = 25.0
 margin_right = -115.0
-margin_bottom = 112.0
+margin_bottom = 125.0
 button_mask = 2
 
 [node name="Pierce" parent="Upgrades" index="3"]
 margin_left = -48.0
-margin_top = -77.0
+margin_top = -109.0
 margin_right = 52.0
-margin_bottom = 23.0
+margin_bottom = -9.0
 button_mask = 2
 
 [node name="FireRate" parent="Upgrades" index="4"]
 margin_left = -48.0
-margin_top = 13.0
+margin_top = 25.0
 margin_right = 52.0
-margin_bottom = 113.0
+margin_bottom = 125.0
 button_mask = 2
 
 [node name="Front" parent="Upgrades" index="5"]
 margin_left = 122.0
-margin_top = -80.0
+margin_top = -112.0
 margin_right = 222.0
-margin_bottom = 20.0
+margin_bottom = -12.0
 button_mask = 2
 
 [node name="Back" parent="Upgrades" index="6"]
 margin_left = 119.0
-margin_top = 6.0
+margin_top = 19.0
 margin_right = 219.0
-margin_bottom = 106.0
+margin_bottom = 119.0
 rect_scale = Vector2( 1, 1 )
 button_mask = 2
 
 [node name="Sprite2" type="Sprite" parent="Upgrades"]
-position = Vector2( -165, 14.5 )
+position = Vector2( -165, -61.6 )
 scale = Vector2( 1.3, 1.3 )
 z_index = -1
 texture = ExtResource( 20 )
 
 [node name="Sprite3" type="Sprite" parent="Upgrades"]
-position = Vector2( 0, 14.5 )
+position = Vector2( 0, -61.6 )
 scale = Vector2( 1.3, 1.3 )
 z_index = -1
 texture = ExtResource( 20 )
 
 [node name="Sprite4" type="Sprite" parent="Upgrades"]
-position = Vector2( 165, 14.5 )
+position = Vector2( 165, -61.6 )
+scale = Vector2( 1.3, 1.3 )
+z_index = -1
+texture = ExtResource( 20 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Sprite5" type="Sprite" parent="Upgrades"]
+position = Vector2( -165, 71.4 )
+scale = Vector2( 1.3, 1.3 )
+z_index = -1
+texture = ExtResource( 20 )
+
+[node name="Sprite6" type="Sprite" parent="Upgrades"]
+position = Vector2( 0, 71.4 )
+scale = Vector2( 1.3, 1.3 )
+z_index = -1
+texture = ExtResource( 20 )
+
+[node name="Sprite7" type="Sprite" parent="Upgrades"]
+position = Vector2( 165, 71.4 )
 scale = Vector2( 1.3, 1.3 )
 z_index = -1
 texture = ExtResource( 20 )
@@ -313,7 +333,7 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="Upgrades"]
-position = Vector2( 0, -117 )
+position = Vector2( 0, 4 )
 texture = ExtResource( 19 )
 
 [node name="Died" parent="." instance=ExtResource( 12 )]
@@ -333,6 +353,7 @@ texture = ExtResource( 15 )
 [node name="AuraCircle" type="AnimatedSprite" parent="."]
 scale = Vector2( 2, 2 )
 frames = SubResource( 29 )
+frame = 2
 playing = true
 
 [node name="Label" type="Label" parent="."]
